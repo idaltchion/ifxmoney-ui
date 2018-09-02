@@ -3,7 +3,12 @@ package com.idaltchion.ifxmoney.api.resource;
 import java.net.URI;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.idaltchion.ifxmoney.api.event.ResourceCreatedEvent;
 import com.idaltchion.ifxmoney.api.model.Categoria;
 import com.idaltchion.ifxmoney.api.repository.CategoriaRepository;
 
@@ -27,25 +33,44 @@ public class CategoriaResource {
 	@Autowired
 	private CategoriaRepository categoriaRepository;
 	
+	@Autowired
+	private ApplicationEventPublisher publisher;
+	
 	@GetMapping //GET
 	public List<Categoria> listar() {
 		return categoriaRepository.findAll();
 	}
 		
 	@PostMapping //POST
-	public ResponseEntity<Categoria> criar(@RequestBody Categoria categoria) {
+	// A annotation @Valid é utilizada para validação de campos (ver tambem a classe Categoria - campo nome)
+	public ResponseEntity<Categoria> criar(@Valid @RequestBody Categoria categoria, HttpServletResponse response) {
+		// etapa1: salva a entidade no banco
 		Categoria categoriaSalva = categoriaRepository.save(categoria);
 		
-		URI uri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/{codigo}")
-			.buildAndExpand(categoriaSalva.getCodigo()).toUri();
-		//codigo 201
-		return ResponseEntity.created(uri).body(categoriaSalva);
+		//monta a URI no formato desejado
+		publisher.publishEvent(new ResourceCreatedEvent(this, response, categoriaSalva.getCodigo()));
+		
+		/*
+		 * etapa2:
+		 * - efetua a criação do builder de acordo com o uri passado e devolve o resultado, ou seja, o body criado.
+		 * - monta a resposta para a API.
+		 * - codigo http: 201 - CREATED
+		 */
+		return ResponseEntity.status(HttpStatus.CREATED).body(categoriaSalva);
 	}
 	
 	@GetMapping("/{codigo}")
 	public ResponseEntity<Categoria> buscarPeloCodigo(@PathVariable Long codigo) {
+		
+		//etapa1: busca no banco
 		Categoria categoria = categoriaRepository.findById(codigo).orElse(null);
-		//codigo 404
+		
+		/*
+		 * etapa2:
+		 * - monta a resposta para a API.
+		 * 		registro encontrado: retorna o body com codigo http 200
+		 *  	registro nao encontrado: retorna o codigo http 404 e sem body
+		 */
 		return categoria != null ? ResponseEntity.ok(categoria) : ResponseEntity.notFound().build();
 	}
 }
