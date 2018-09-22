@@ -12,6 +12,9 @@ import com.idaltchion.ifxmoney.api.repository.LancamentoRepository;
 import com.idaltchion.ifxmoney.api.repository.PessoaRepository;
 import com.idaltchion.ifxmoney.api.service.exception.PessoaInexistenteOuInativaException;
 
+/*
+ * Classe Services são utilizadas para efetuar regras de negocio da classe repository. Nesse caso Lancamento.
+ */
 @Service
 public class LancamentoService {
 

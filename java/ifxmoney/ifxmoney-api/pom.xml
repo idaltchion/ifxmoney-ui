@@ -85,6 +85,15 @@
 		</dependency>
 
 
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-jpamodelgen -->
+		<!-- Utilizado como MetaModel nos filtros (LancamentoFilter) -->
+		<dependency>
+		    <groupId>org.hibernate</groupId>
+		    <artifactId>hibernate-jpamodelgen</artifactId>
+		    <version>5.3.6.Final</version>
+		    <scope>provided</scope>
+		</dependency>
+	
 	</dependencies>
 
 	<build>

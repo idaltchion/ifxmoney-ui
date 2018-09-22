@@ -24,6 +24,7 @@ import com.idaltchion.ifxmoney.api.event.ResourceCreatedEvent;
 import com.idaltchion.ifxmoney.api.exceptionhandler.IfxmoneyExceptionHandler.Erro;
 import com.idaltchion.ifxmoney.api.model.Lancamento;
 import com.idaltchion.ifxmoney.api.repository.LancamentoRepository;
+import com.idaltchion.ifxmoney.api.repository.filter.LancamentoFilter;
 import com.idaltchion.ifxmoney.api.service.LancamentoService;
 import com.idaltchion.ifxmoney.api.service.exception.PessoaInexistenteOuInativaException;
 
@@ -44,9 +45,9 @@ public class LancamentoResource {
 	private MessageSource messageSource;
 	
 	@GetMapping
-	public List<Lancamento> listar() {
+	public List<Lancamento> pesquisar(LancamentoFilter lancamentoFilter) {
 		//aqui tem o problema do N + 1 do JPA. Verificar melhor solução para esse caso
-		return lancamentoRepository.findAll();
+		return lancamentoRepository.filtrar(lancamentoFilter);
 	}
 	
 	@GetMapping("/{codigo}")
