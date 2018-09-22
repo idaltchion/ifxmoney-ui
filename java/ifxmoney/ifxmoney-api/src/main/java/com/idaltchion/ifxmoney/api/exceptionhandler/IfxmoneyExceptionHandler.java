@@ -5,9 +5,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,7 +24,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 //annotation que "linka" essa classe com todos os controllers da aplicação
-@ControllerAdvice 
+@ControllerAdvice
 public class IfxmoneyExceptionHandler extends ResponseEntityExceptionHandler {
 
 	// Faz a leitura do arquivo messages.properties
@@ -40,42 +42,51 @@ public class IfxmoneyExceptionHandler extends ResponseEntityExceptionHandler {
 
 		return handleExceptionInternal(ex, erros, headers, HttpStatus.BAD_REQUEST, request);
 	}
-	
+
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
-		
+
 		List<Erro> erros = criarListaDeErros(ex.getBindingResult());
 		return handleExceptionInternal(ex, erros, headers, HttpStatus.BAD_REQUEST, request);
 	}
-	
-	
+
 	/* Criação de handles customizados */
-	
-	//Exceção gerada quando um recurso não é encontrado
-	@ExceptionHandler({EmptyResultDataAccessException.class, NoSuchElementException.class})
+
+	// Exceção gerada quando um recurso não é encontrado
+	@ExceptionHandler({ EmptyResultDataAccessException.class, NoSuchElementException.class })
 	protected ResponseEntity<Object> handleEmptyResultDataAccessException(Exception ex, WebRequest request) {
 		// captura uma propriedade do arquivo message.properties e utiliza o Locale corrente para utilizar na mensagem
-		String mensagemUsuario = messageSource.getMessage("recurso.nao-encontrado", null, LocaleContextHolder.getLocale());
+		String mensagemUsuario = messageSource.getMessage("recurso.nao-encontrado", null,
+				LocaleContextHolder.getLocale());
 		String mensagemDesenvolvedor = ex.toString();
 		List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
 		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.NOT_FOUND, request);
 	}
-	
-	
-	//BindingResult captura os erros do bean validation
+
+	// BindingResult captura os erros do bean validation
 	private List<Erro> criarListaDeErros(BindingResult bindingResults) {
 		List<Erro> erros = new ArrayList<>();
-		
 		for (FieldError fieldError : bindingResults.getFieldErrors()) {
 			String mensagemUsuario = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
 			String mensagemDesenvolvedor = fieldError.toString();
 			erros.add(new Erro(mensagemUsuario, mensagemDesenvolvedor));
 		}
-	
 		return erros;
 	}
-	
+
+	// Exceção gerada quando um codigo (categoria ou pessoa no lancamento, por exemplo) nao existe 
+	@ExceptionHandler({ DataIntegrityViolationException.class })
+	protected ResponseEntity<Object> handleDataIntegrityViolationException(DataIntegrityViolationException ex,
+			WebRequest request) {
+		// captura uma propriedade do arquivo message.properties e utiliza o Locale corrente para utilizar na mensagem
+		String mensagemUsuario = messageSource.getMessage("recurso.operacao-nao-permitida", null,
+				LocaleContextHolder.getLocale());
+		String mensagemDesenvolvedor = ExceptionUtils.getRootCauseMessage(ex);
+		List<Erro> erros = Arrays.asList(new Erro(mensagemUsuario, mensagemDesenvolvedor));
+		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+	}
+
 	public static class Erro {
 
 		private String mensagemUsuario;

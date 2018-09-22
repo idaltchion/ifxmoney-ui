@@ -6,8 +6,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "pessoas")
@@ -43,7 +46,7 @@ public class Pessoa {
 		this.nome = nome;
 	}
 
-	public Boolean isAtivo() {
+	public Boolean getAtivo() {
 		return ativo;
 	}
 
@@ -82,6 +85,12 @@ public class Pessoa {
 		} else if (!codigo.equals(other.codigo))
 			return false;
 		return true;
+	}
+
+	@JsonIgnore //Jackson vai ignorar e nao entender como propriedade
+	@Transient //Hibernate vai ignorar e nao entender como propriedade
+	public boolean isInativo() {
+		return !this.ativo;
 	}
 
 }
