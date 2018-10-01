@@ -88,12 +88,21 @@
 		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-jpamodelgen -->
 		<!-- Utilizado como MetaModel nos filtros (LancamentoFilter) -->
 		<dependency>
-		    <groupId>org.hibernate</groupId>
-		    <artifactId>hibernate-jpamodelgen</artifactId>
-		    <version>5.3.6.Final</version>
-		    <scope>provided</scope>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-jpamodelgen</artifactId>
+			<version>5.3.6.Final</version>
+			<scope>provided</scope>
 		</dependency>
-	
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
+		<!-- Utilizado na seguranca do sistema do tipo Basic -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+
+
 	</dependencies>
 
 	<build>

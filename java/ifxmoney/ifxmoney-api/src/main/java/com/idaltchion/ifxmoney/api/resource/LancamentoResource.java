@@ -10,8 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -45,15 +48,21 @@ public class LancamentoResource {
 	private MessageSource messageSource;
 	
 	@GetMapping
-	public List<Lancamento> pesquisar(LancamentoFilter lancamentoFilter) {
+	public Page<Lancamento> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable) {
 		//aqui tem o problema do N + 1 do JPA. Verificar melhor solução para esse caso
-		return lancamentoRepository.filtrar(lancamentoFilter);
+		return lancamentoRepository.filtrar(lancamentoFilter, pageable);
 	}
 	
 	@GetMapping("/{codigo}")
 	public ResponseEntity<Lancamento> listar(@PathVariable Long codigo) {
 		Lancamento lancamento = lancamentoRepository.findById(codigo).orElse(null);
 		return lancamento != null ? ResponseEntity.ok(lancamento) : ResponseEntity.notFound().build();
+	}
+	
+	@DeleteMapping("/{codigo}")
+	public ResponseEntity<Lancamento> remover(@PathVariable Long codigo) {
+		lancamentoRepository.deleteById(codigo);
+		return ResponseEntity.noContent().build();
 	}
 	
 	@PostMapping
