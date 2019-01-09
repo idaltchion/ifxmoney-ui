@@ -26,11 +26,11 @@ def create_app(test_config=None):
     except OSError:
         pass
     
-    """
-    @app.route('/')
+    
+    @app.route('/hello')
     def hello():
-        return 'Hello GUYS!'
-    """
+        return 'Hello, World!'
+    
 
     from . import db
     db.init_app(app)
