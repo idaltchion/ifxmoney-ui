@@ -29,13 +29,20 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.inMemory()
-			.withClient("angular")
-			//.secret("{noop}@ngul@r0") //alterado apos a senha passar a ser encodada com BCrypt
-			.secret("$2a$10$6VfRAOL1GT1mXtGmp2xvbeKjrJe3ecI9DZYn5iAqlDb/hm7W1EVcG")
-			.scopes("read", "write")
-			.authorizedGrantTypes("password", "refresh_token")
-			.accessTokenValiditySeconds(20)
-			.refreshTokenValiditySeconds(3600 * 24);
+				.withClient("angular")
+				//.secret("{noop}@ngul@r0") //alterado apos a senha passar a ser encodada com BCrypt
+				.secret("$2a$10$6VfRAOL1GT1mXtGmp2xvbeKjrJe3ecI9DZYn5iAqlDb/hm7W1EVcG")
+				.scopes("read", "write")
+				.authorizedGrantTypes("password", "refresh_token")
+				.accessTokenValiditySeconds(1800)
+				.refreshTokenValiditySeconds(3600 * 24)
+			.and()
+				.withClient("mobile")
+				.secret("$2a$10$wNzfWC8zvP1bq6g7Ru1AQ.5tpSCoNlzbsvPlACtK.QYboEqu9i4ua")
+				.scopes("read")
+				.authorizedGrantTypes("password", "refresh_token")
+				.accessTokenValiditySeconds(1800)
+				.refreshTokenValiditySeconds(3600 * 24);
 	}
 	
 	@Override
