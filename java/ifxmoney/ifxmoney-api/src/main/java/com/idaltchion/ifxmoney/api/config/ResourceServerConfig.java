@@ -1,36 +1,28 @@
+/*
+ * Nova classe: ver notas da aula "6.11. Movendo o usuário para o banco de dados"
+ */
 package com.idaltchion.ifxmoney.api.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 
-/*
- * Classe responsavel por validar o token e permitir o acesso aos recursos utilizados
- */
+
 @Configuration
-@EnableWebSecurity
 @EnableResourceServer
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
-	@Autowired
-	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication()
-			.withUser("admin").password("{noop}admin").roles("ROLE");
-	}
-	
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers("/categorias").permitAll() //nao necessita token para esse recurso ...
-			.anyRequest().authenticated() // ... para os demais eh necessario o token
-			.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-			.and().csrf().disable();
+					.antMatchers("/categorias").permitAll()
+					.anyRequest().authenticated()
+					.and()
+				.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+					.csrf().disable();
 	}
 	
 	@Override
