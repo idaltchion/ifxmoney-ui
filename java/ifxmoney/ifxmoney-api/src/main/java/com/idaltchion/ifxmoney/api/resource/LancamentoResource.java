@@ -14,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,24 +49,28 @@ public class LancamentoResource {
 	private MessageSource messageSource;
 	
 	@GetMapping
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
 	public Page<Lancamento> pesquisar(LancamentoFilter lancamentoFilter, Pageable pageable) {
 		//aqui tem o problema do N + 1 do JPA. Verificar melhor solução para esse caso
 		return lancamentoRepository.filtrar(lancamentoFilter, pageable);
 	}
 	
 	@GetMapping("/{codigo}")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_LANCAMENTO') and #oauth2.hasScope('read')")
 	public ResponseEntity<Lancamento> listar(@PathVariable Long codigo) {
 		Lancamento lancamento = lancamentoRepository.findById(codigo).orElse(null);
 		return lancamento != null ? ResponseEntity.ok(lancamento) : ResponseEntity.notFound().build();
 	}
 	
 	@DeleteMapping("/{codigo}")
+	@PreAuthorize("hasAuthority('ROLE_REMOVER_LANCAMENTO') and #oauth2.hasScope('read')") //read para testar somente
 	public ResponseEntity<Lancamento> remover(@PathVariable Long codigo) {
 		lancamentoRepository.deleteById(codigo);
 		return ResponseEntity.noContent().build();
 	}
 	
 	@PostMapping
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_LANCAMENTO') and #oauth2.hasScope('read')") //read para testar somente
 	public ResponseEntity<Lancamento> adicionarLancamento(@Valid @RequestBody Lancamento lancamento, HttpServletResponse response) {
 		/* Ocorre autoincremento na tabela lancamento do banco quando passa um codigo de categoria ou pessoa que nao existem. 
 		 * Verificar solucao para esse caso

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,11 +40,13 @@ public class PessoaResource {
 	private ApplicationEventPublisher publisher;
 
 	@GetMapping
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA') and #oauth2.hasScope('read')")
 	public List<Pessoa> listarPessoas() {
 		return pessoaRepository.findAll();
 	}
 	
 	@GetMapping("/{codigo}")
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA') and #oauth2.hasScope('read')")
 	public ResponseEntity<Pessoa> listarPessoaPeloCodigo(@PathVariable Long codigo) {
 		//etapa 1 - buscar no banco
 		Pessoa pessoa = pessoaRepository.findById(codigo).orElse(null);
@@ -53,6 +56,7 @@ public class PessoaResource {
 	}
 	
 	@PostMapping
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_PESSOA') and #oauth2.hasScope('read')")
 	public ResponseEntity<Pessoa> adicionarPessoa(@Valid @RequestBody Pessoa pessoa, HttpServletResponse response) {
 		//etapa 1 - adicionar no banco
 		Pessoa novaPessoa = pessoaRepository.save(pessoa);
@@ -65,6 +69,7 @@ public class PessoaResource {
 	}
 	
 	@DeleteMapping("/{codigo}")
+	@PreAuthorize("hasAuhtority('ROLE_REMOVER_PESSOA') and #oauth2.hasScope('read')")
 	//@ResponseStatus(HttpStatus.NO_CONTENT) //Outra maneira, mais direta, de devolver a reposta para a API
 	public ResponseEntity<Pessoa> removerPessoa(@PathVariable Long codigo, HttpServletResponse response) {
 		//Etapa 1 - remove do banco
@@ -75,6 +80,7 @@ public class PessoaResource {
 	}
 	
 	@PutMapping("/{codigo}")
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_PESSOA') and #oauth2.hasScope('read')")
 	public ResponseEntity<Pessoa> atualizarPessoa(@PathVariable Long codigo, @Valid @RequestBody Pessoa pessoa) {
 		//Etapa 1 - atualiza as propriedades da pessoa conforme a requisição
 		Pessoa pessoaSalva = pessoaService.atualizarPessoa(codigo, pessoa);
@@ -85,6 +91,7 @@ public class PessoaResource {
 	
 	@PutMapping("/{codigo}/ativo")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
+	@PreAuthorize("hasAuthority('ROLE_CADASTRAR_PESSOA') and #oauth2.hasScope('read')")
 	public void atualizarPropriedadeAtivo(@PathVariable Long codigo, @RequestBody Boolean ativo) {
 		pessoaService.atualizarPropriedadeAtivo(codigo, ativo);
 	}
