@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 /*
  * Estudar sobre refreshToken, accessToken e Cookie
  * - refreshToken: fica no cookie e no protocolo https (mais seguro), tempo mair
@@ -22,7 +21,7 @@ public class TokenResource {
 
 	/*
 	 * - O acesso a esse recurso vai ficar da seguinte maneira: http://<server>:<porta>/tokens/revoke
-	 * - O "logout" vai ser simplesmente deixa o refreshToken de dentro do cookie nulo e com tempo zerado
+	 * - O "logout" vai ser simplesmente deixa o cookie (que tem o refreshToken) nulo e com tempo zerado
 	 */
 	@DeleteMapping("/revoke")
 	public void revoke(HttpServletRequest req, HttpServletResponse resp) {
