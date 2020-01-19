@@ -16,9 +16,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;
 
+import com.idaltchion.ifxmoney.api.model.Categoria_;
 import com.idaltchion.ifxmoney.api.model.Lancamento;
 import com.idaltchion.ifxmoney.api.model.Lancamento_;
+import com.idaltchion.ifxmoney.api.model.Pessoa_;
 import com.idaltchion.ifxmoney.api.repository.filter.LancamentoFilter;
+import com.idaltchion.ifxmoney.api.resource.projection.ResumoLancamento;
 
 /*
  * Classe que implementa a interface com metodos customizados  
@@ -44,7 +47,31 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 		adicionarRestricoesDePaginacao(query, pageable);
 		return new PageImpl<>(query.getResultList(), pageable, total(lancamentoFilter)) ;
 	}
-
+	
+	@Override
+	public Page<ResumoLancamento> resumir(LancamentoFilter lancamentoFilter, Pageable pageable) {
+		CriteriaBuilder builder = manager.getCriteriaBuilder();
+		CriteriaQuery<ResumoLancamento> criteria = builder.createQuery(ResumoLancamento.class); //pergunta: retorna o que/pra quem?
+		Root<Lancamento> root = criteria.from(Lancamento.class); //pergunta: busca dados de qual entidade? qual classe interessa?
+		criteria.select(builder.construct(ResumoLancamento.class, 
+				root.get(Lancamento_.CODIGO),
+				root.get(Lancamento_.DESCRICAO),
+				root.get(Lancamento_.DATA_PAGAMENTO),
+				root.get(Lancamento_.DATA_VENCIMENTO),
+				root.get(Lancamento_.VALOR),
+				root.get(Lancamento_.TIPO),
+				root.get(Lancamento_.categoria).get(Categoria_.NOME),
+				root.get(Lancamento_.PESSOA).get(Pessoa_.NOME)
+			));
+		
+		Predicate[] predicates = criarRestricoes(lancamentoFilter, builder, root);
+		criteria.where(predicates);
+		
+		TypedQuery<ResumoLancamento> query = manager.createQuery(criteria);
+		adicionarRestricoesDePaginacao(query, pageable);
+		return new PageImpl<>(query.getResultList(), pageable, total(lancamentoFilter));	
+	}
+	
 	private Predicate[] criarRestricoes(LancamentoFilter lancamentoFilter, CriteriaBuilder builder,
 			Root<Lancamento> root) {
 		
@@ -68,7 +95,7 @@ public class LancamentoRepositoryImpl implements LancamentoRepositoryQuery {
 		return predicates.toArray(new Predicate[predicates.size()]);
 	}
 	
-	private void adicionarRestricoesDePaginacao(TypedQuery<Lancamento> query, Pageable pageable) {
+	private void adicionarRestricoesDePaginacao(TypedQuery<?> query, Pageable pageable) {
 		int paginaAtual = pageable.getPageNumber();
 		int totalRegistrosPorPagina = pageable.getPageSize();
 		int primeiroRegistroDaPagina = paginaAtual * totalRegistrosPorPagina;
