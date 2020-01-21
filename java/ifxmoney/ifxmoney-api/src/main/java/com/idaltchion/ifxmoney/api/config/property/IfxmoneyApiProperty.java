@@ -5,6 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /*
  * Profile: formas de setar propriedades conforme a necessidade, tal como por tipo de ambiente (dev, prod, etc) entre outras necessidades
  * Ver utilizacao na classe RefrehTokenPostProcessor
+ * Ver arquivo Procfile na raiz da aplicacao
  */
 @ConfigurationProperties("ifxmoney")
 public class IfxmoneyApiProperty {
