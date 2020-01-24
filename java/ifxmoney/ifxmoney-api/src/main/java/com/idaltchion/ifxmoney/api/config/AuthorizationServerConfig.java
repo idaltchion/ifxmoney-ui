@@ -5,6 +5,7 @@ import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -21,7 +22,11 @@ import com.idaltchion.ifxmoney.api.config.token.CustomTokenEnhancer;
 
 /*
  * Classe responsavel por fornecer o token para a aplicacao
+ * Na consulta de dados pela API a autenticacao:
+ * - utilizando token: sera necessario um access token e informar o token nas consultas
+ * - utilizando basic: nao precisa mais do token, basta o usuario/senha da aplicacao 
  */
+@Profile("oauth-security")
 @Configuration
 @EnableAuthorizationServer
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
