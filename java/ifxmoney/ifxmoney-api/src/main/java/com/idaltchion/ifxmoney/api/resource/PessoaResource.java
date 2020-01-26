@@ -7,6 +7,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.idaltchion.ifxmoney.api.event.ResourceCreatedEvent;
 import com.idaltchion.ifxmoney.api.model.Pessoa;
 import com.idaltchion.ifxmoney.api.repository.PessoaRepository;
+import com.idaltchion.ifxmoney.api.repository.filter.PessoaFilter;
 import com.idaltchion.ifxmoney.api.service.PessoaService;
 
 @RestController
@@ -38,11 +41,17 @@ public class PessoaResource {
 	
 	@Autowired
 	private ApplicationEventPublisher publisher;
-
+/*
 	@GetMapping
 	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA') and #oauth2.hasScope('read')")
 	public List<Pessoa> listarPessoas() {
 		return pessoaRepository.findAll();
+	}
+*/	
+	@GetMapping
+	@PreAuthorize("hasAuthority('ROLE_PESQUISAR_PESSOA') and #oauth2.hasScope('read')")
+	public Page<Pessoa> pesquisar(PessoaFilter pessoaFilter, Pageable pageable) {
+		return pessoaRepository.filtrar(pessoaFilter, pageable);
 	}
 	
 	@GetMapping("/{codigo}")
