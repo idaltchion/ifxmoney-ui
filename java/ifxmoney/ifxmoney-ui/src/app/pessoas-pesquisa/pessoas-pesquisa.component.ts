@@ -20,6 +20,6 @@ export class PessoasPesquisaComponent {
     {nome: 'BBBBBBBBB', cidade: 'São Paulo', estado: 'SP', ativo: false},
     {nome: 'AAAAAAAAA', cidade: 'Rio de Janeiro', estado: 'RJ', ativo: true},
     {nome: 'BBBBBBBBB', cidade: 'São Paulo', estado: 'SP', ativo: false}
-  ]
+  ];
 
 }
