@@ -15,11 +15,13 @@ import { InputTextareaModule } from 'primeng/inputtextarea';
 import { CalendarModule } from 'primeng/calendar';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { DropdownModule } from 'primeng/dropdown';
+import { InputMaskModule } from 'primeng/inputmask';
 
 import { LancamentosPesquisaComponent } from './lancamentos-pesquisa/lancamentos-pesquisa.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { PessoasPesquisaComponent } from './pessoas-pesquisa/pessoas-pesquisa.component';
 import { LancamentosCadastroComponent } from './lancamentos-cadastro/lancamentos-cadastro.component';
+import { PessoasCadastroComponent } from './pessoas-cadastro/pessoas-cadastro.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,8 @@ import { LancamentosCadastroComponent } from './lancamentos-cadastro/lancamentos
     LancamentosPesquisaComponent,
     NavbarComponent,
     PessoasPesquisaComponent,
-    LancamentosCadastroComponent
+    LancamentosCadastroComponent,
+    PessoasCadastroComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +44,8 @@ import { LancamentosCadastroComponent } from './lancamentos-cadastro/lancamentos
     InputTextareaModule,
     CalendarModule,
     SelectButtonModule,
-    DropdownModule
+    DropdownModule,
+    InputMaskModule
   ],
   providers: [],
   bootstrap: [AppComponent]
