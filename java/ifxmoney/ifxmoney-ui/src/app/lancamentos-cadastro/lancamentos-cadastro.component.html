@@ -1,16 +1,20 @@
 <div class="container">
-  <form>
+  <form #f="ngForm" autocomplete="off">
     <div class="ui-g">
       <div class="ui-g-12">
         <h1>Novo Lançamento</h1>
       </div>
+
       <div class="ui-g-12">
         <p-selectButton [options]="tipos" #tipo></p-selectButton>
       </div>
+
       <div class="ui-g-6 ui-md-3 ui-fluid">
         <label>Vencimento</label>
-        <p-calendar dateFormat="dd/mm/yy" placeholder="dd/mm/aaaa" showIcon="true"></p-calendar>
+        <p-calendar dateFormat="dd/mm/yy" placeholder="dd/mm/aaaa" showIcon="true" name="vencimento" ngModel #vencimento="ngModel" required></p-calendar>
+        <app-message [control]="vencimento" error="required"></app-message>
       </div>
+
       <div class="ui-g-6 ui-md-3 ui-fluid">
         <label>{{ tipo.value === 'RECEITA' ? 'Recebimento' : 'Pagamento'}}</label>
         <p-calendar dateFormat="dd/mm/yy" placeholder="dd/mm/aaaa" showIcon="true"></p-calendar>
@@ -18,20 +22,28 @@
 
       <div class="ui-g-12 ui-md-9 ui-fluid">
         <label>Descrição</label>
-        <input type="text" pInputText />
+        <input type="text" pInputText name="descricao" ngModel #descricao="ngModel" required minlength="5"/>
+        <app-message [control]="descricao" error="required"></app-message>
+        <app-message [control]="descricao"
+          error="minlength" text="* Mínimo {{ descricao.errors?.minlength?.requiredLength }} caracteres"> <!-- ? means Elvis operator -->
+        </app-message>
       </div>
+
       <div class="ui-g-12 ui-md-3 ui-fluid">
         <label>Valor</label>
-        <input type="text" pInputText placeholder="0,00" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',', allowNegative: false }"/>
+        <input type="text" pInputText name="valor" ngModel #valor="ngModel" required
+          placeholder="0,00" currencyMask [options]="{ prefix: '', thousands: '.', decimal: ',', allowNegative: false }"/>
+          <app-message [control]="valor" error="required"></app-message>
       </div>
 
       <div class="ui-g-12 ui-md-6 ui-fluid">
         <label>Categoria</label>
-        <p-dropdown [options]="categorias" placeholder="Selecione"></p-dropdown>
+        <p-dropdown [options]="categorias" placeholder="Selecione" name="categoria" ngModel #categoria="ngModel" required></p-dropdown>
       </div>
+
       <div class="ui-g-12 ui-md-6 ui-fluid">
         <label>Pessoa</label>
-        <p-dropdown [options]="pessoas" placeholder="Selecione" [filter]="true"></p-dropdown>
+        <p-dropdown [options]="pessoas" placeholder="Selecione" [filter]="true" name="pessoa" ngModel #pessoa="ngModel" required></p-dropdown>
       </div>
 
       <div class="ui-g-12 ui-fluid">
@@ -39,7 +51,7 @@
         <textarea rows="3" pInputTextarea></textarea>
       </div>
       <div class="ui-g-12">
-          <button type="submit" pButton label="Salvar"></button>
+          <button type="submit" pButton label="Salvar" [disabled]="f.invalid"></button>
           <button type="button" pButton class="ui-button-warning" label="Novo" style="margin: 0 .5em"></button>
           <a href="javascript:;">Voltar para a pesquisa</a>
       </div>
