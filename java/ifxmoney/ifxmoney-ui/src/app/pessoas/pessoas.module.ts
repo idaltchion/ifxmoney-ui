@@ -8,10 +8,11 @@ import { TooltipModule } from 'primeng/tooltip';
 import { TableModule } from 'primeng/table';
 import { InputMaskModule } from 'primeng/inputmask';
 
+/* Imports from custom components and modules */
 import { PessoasGridComponent } from './pessoas-grid/pessoas-grid.component';
 import { PessoasPesquisaComponent } from './pessoas-pesquisa/pessoas-pesquisa.component';
 import { PessoasCadastroComponent } from './pessoas-cadastro/pessoas-cadastro.component';
-
+import { SharedModule } from './../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { PessoasCadastroComponent } from './pessoas-cadastro/pessoas-cadastro.co
     TableModule,
     TooltipModule,
     InputTextModule,
-    ButtonModule
+    ButtonModule,
+    SharedModule
   ],
   exports: [
     PessoasCadastroComponent,

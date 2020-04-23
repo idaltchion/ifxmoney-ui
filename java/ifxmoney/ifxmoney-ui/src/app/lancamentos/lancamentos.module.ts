@@ -16,9 +16,11 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { CalendarModule } from 'primeng/calendar';
 
+/* Imports from custom components and modules */
 import { LancamentosGridComponent } from './lancamentos-grid/lancamentos-grid.component';
 import { LancamentosPesquisaComponent } from './lancamentos-pesquisa/lancamentos-pesquisa.component';
 import { LancamentosCadastroComponent } from './lancamentos-cadastro/lancamentos-cadastro.component';
+import { SharedModule } from './../shared/shared.module';
 
 
 @NgModule({
@@ -40,7 +42,8 @@ import { LancamentosCadastroComponent } from './lancamentos-cadastro/lancamentos
     InputMaskModule,
     InputTextareaModule,
     ButtonModule,
-    TooltipModule
+    TooltipModule,
+    SharedModule
   ],
   exports: [
     LancamentosCadastroComponent,
