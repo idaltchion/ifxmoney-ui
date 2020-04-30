@@ -11,6 +11,9 @@ export class LancamentosPesquisaComponent implements OnInit {
 
   constructor(private lancamentoService: LancamentoService) { }
 
+  descricao: string;
+  dataVencimentoInicio: Date;
+  dataVencimentoFim: Date;
   lancamentos = [];
 
   ngOnInit() {
@@ -18,7 +21,14 @@ export class LancamentosPesquisaComponent implements OnInit {
   }
 
   pesquisar() {
-    this.lancamentoService.pesquisar()
+
+    const filtro = {
+      descricao: this.descricao,
+      dataVencimentoInicio: this.dataVencimentoInicio,
+      dataVencimentoFim: this.dataVencimentoFim
+    };
+
+    this.lancamentoService.pesquisar(filtro)
     .then(results => this.lancamentos = results);
   }
 
