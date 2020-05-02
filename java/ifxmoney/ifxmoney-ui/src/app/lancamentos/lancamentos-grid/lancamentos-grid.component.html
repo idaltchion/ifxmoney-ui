@@ -1,4 +1,5 @@
-<p-table [value]="lancamentos" [paginator]="true" [rows]=3 [rowsPerPageOptions]="[3, 5]" [responsive]="true">
+<p-table [value]="lancamentos" [responsive]="true"
+  [paginator]="true" [rows]="filter.itensPorPagina" [lazy]="true" [totalRecords]="totalRegistros" (onLazyLoad)="aoMudarPagina($event)">
   <ng-template pTemplate="emptymessage">
     Nenhum lançamento encontrado
   </ng-template>

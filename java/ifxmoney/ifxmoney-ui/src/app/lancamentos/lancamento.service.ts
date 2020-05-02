@@ -4,10 +4,12 @@ import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/toPromise';
 import * as moment from 'moment';
 
-export interface LancamentoFilter {
+export class LancamentoFilter {
   descricao: string;
   dataVencimentoInicio: Date;
   dataVencimentoFim: Date;
+  pagina = 0;
+  itensPorPagina = 5;
 }
 
 @Injectable({
@@ -23,6 +25,9 @@ export class LancamentoService {
     const headers = new HttpHeaders().append('Authorization', 'Basic YWRtaW5AaWZ4bW9uZXkuY29tOmFkbWlu');
     let params = new HttpParams();
 
+    params = params.set('page', filter.pagina.toString());
+    params = params.set('size', filter.itensPorPagina.toString());
+
     if (filter.descricao) {
       params = params.set('descricao', filter.descricao);
     }
@@ -37,7 +42,14 @@ export class LancamentoService {
 
     return this.http.get(`${this.lancamentoURL}?resumo`, { headers, params })
       .toPromise()
-      .then(results => results['content']);
+      .then(response => {
+        const content = response['content'];
+        const results = {
+          lancamentos: content,
+          total: response['totalElements']
+        };
+        return results;
+      });
   }
 
 }
