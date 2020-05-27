@@ -1,9 +1,0 @@
-leao
-macaco
-elefante
-girafa
-cachorro
-gato
-tatu
-ovelha
-orangotango
