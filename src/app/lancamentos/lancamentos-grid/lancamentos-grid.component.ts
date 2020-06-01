@@ -26,9 +26,18 @@ export class LancamentosGridComponent {
     this.aoMudarPagina.emit(event);
   }
 
+  pesquisar() {
+    this.lancamentoPesquisa.pesquisar();
+  }
+
   remover(lancamento: any) {
     this.lancamentoPesquisa.remover(lancamento);
-    this.grid.reset();
+    // TODO: corrigir re-carregamento do grid ao excluir item da primeira pagina (das demais paginas esta ok)
+    if (this.grid.first === 0) {
+      this.pesquisar();
+    } else {
+      this.grid.reset();
+    }
   }
 
 }
