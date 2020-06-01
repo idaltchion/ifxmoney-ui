@@ -1,5 +1,5 @@
 <p-table [value]="lancamentos" [responsive]="true"
-  [paginator]="true" [rows]="filter.itensPorPagina" [lazy]="true" [totalRecords]="totalRegistros" (onLazyLoad)="mudarPagina($event)" #grid>
+  [paginator]="true" [rows]="filter.itensPorPagina" [lazy]="true" [totalRecords]="totalRegistros" (onLazyLoad)="mudarPagina($event)" #tabela>
   <ng-template pTemplate="emptymessage">
     Nenhum lançamento encontrado
   </ng-template>
@@ -38,7 +38,7 @@
       <td class="col-acoes">
         <a class="espaco-icones" pButton icon="pi pi-pencil" pTooltip="Editar" tooltipPosition="top"></a>
         <button class="espaco-icones" pButton icon="pi pi-trash" pTooltip="Remover" tooltipPosition="top" 
-          (click)="remover(lancamento)">
+          (click)="confirmarRemocao(lancamento)">
         </button>
       </td>
     </tr>

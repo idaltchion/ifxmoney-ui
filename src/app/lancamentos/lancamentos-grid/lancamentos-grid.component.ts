@@ -1,8 +1,10 @@
 import { Component, Input, ViewChild, Output, EventEmitter } from '@angular/core';
-import { LazyLoadEvent } from 'primeng/api/public_api';
-import { Table } from 'primeng/table/table';
 
-import { LancamentoFilter } from './../lancamento.service';
+import { Table } from 'primeng/table/table';
+import { ConfirmationService } from 'primeng/api';
+import { ToastyService } from 'ng2-toasty';
+
+import { LancamentoFilter, LancamentoService } from './../lancamento.service';
 import { LancamentosPesquisaComponent } from './../lancamentos-pesquisa/lancamentos-pesquisa.component';
 
 
@@ -17,10 +19,15 @@ export class LancamentosGridComponent {
   @Input() lancamentos: [];
   @Input() totalRegistros: number;
   @Input() filter = new LancamentoFilter();
-  @ViewChild('grid', {static: true}) grid: Table;
+  @ViewChild('tabela', {static: true}) tabela: Table;
   @Output() aoMudarPagina = new EventEmitter();
 
-  constructor(private lancamentoPesquisa: LancamentosPesquisaComponent) { }
+  constructor(
+    private lancamentoPesquisa: LancamentosPesquisaComponent,
+    private lancamentoService: LancamentoService,
+    private toastyService: ToastyService,
+    private confirmDialogService: ConfirmationService
+    ) {}
 
   mudarPagina(event) {
     this.aoMudarPagina.emit(event);
@@ -31,13 +38,24 @@ export class LancamentosGridComponent {
   }
 
   remover(lancamento: any) {
-    this.lancamentoPesquisa.remover(lancamento);
-    // TODO: corrigir re-carregamento do grid ao excluir item da primeira pagina (das demais paginas esta ok)
-    if (this.grid.first === 0) {
-      this.pesquisar();
-    } else {
-      this.grid.reset();
-    }
+    this.lancamentoService.remover(lancamento.codigo)
+      .then( () => {
+        if (this.tabela.first === 0) {
+          this.pesquisar();
+        } else {
+          this.tabela.reset();
+        }
+      });
+  }
+
+  confirmarRemocao(lancamento: any) {
+    this.confirmDialogService.confirm({
+      message: 'Tem certeza que deseja remover?',
+      accept: () => {
+        this.remover(lancamento);
+        this.toastyService.success('Lançamento excluído com sucesso!');
+      }
+    });
   }
 
 }

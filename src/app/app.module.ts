@@ -1,12 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HttpClientModule } from '@angular/common/http';
 
 /* Imports from third components and modules */
 import { ToastyModule } from 'ng2-toasty';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 /* Imports from custom components and modules */
 import { LancamentosModule } from './lancamentos/lancamentos.module';
@@ -26,6 +28,7 @@ import { LancamentoService } from './lancamentos/lancamento.service';
 
     /* Third imports */
     ToastyModule.forRoot(),
+    ConfirmDialogModule,
 
     /* Custons imports */
     LancamentosModule,
@@ -34,7 +37,8 @@ import { LancamentoService } from './lancamentos/lancamento.service';
   ],
   providers: [
     LancamentoService,
-    PessoaService
+    PessoaService,
+    ConfirmationService
   ],
   bootstrap: [AppComponent]
 })
