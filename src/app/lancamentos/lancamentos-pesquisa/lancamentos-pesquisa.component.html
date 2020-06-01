@@ -28,7 +28,9 @@
 
   <div class="ui-g">
     <div class="ui-g-12">
-      <app-lancamentos-grid [lancamentos]="lancamentos" [totalRegistros]="totalRegistros"></app-lancamentos-grid>
+      <app-lancamentos-grid [lancamentos]="lancamentos" [totalRegistros]="totalRegistros" 
+        (aoMudarPagina)="aoMudarPagina($event)">
+      </app-lancamentos-grid>
     </div>
   </div>
 

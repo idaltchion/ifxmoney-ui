@@ -1,5 +1,7 @@
 import { LancamentoService, LancamentoFilter } from './../lancamento.service';
 import { Component, OnInit } from '@angular/core';
+import { Table } from 'primeng/table/table';
+import { LazyLoadEvent } from 'primeng/api/public_api';
 
 @Component({
   selector: 'app-lancamentos-pesquisa',
@@ -19,6 +21,11 @@ export class LancamentosPesquisaComponent implements OnInit {
     //this.pesquisar();
   }
 
+  aoMudarPagina(event: LazyLoadEvent) {
+    const pagina = event.first / event.rows;
+    this.pesquisar(pagina);
+  }
+
   pesquisar(pagina = 0) {
     this.filter.pagina = pagina;
     this.lancamentoService.pesquisar(this.filter)
@@ -26,6 +33,11 @@ export class LancamentosPesquisaComponent implements OnInit {
       this.lancamentos = results.lancamentos;
       this.totalRegistros = results.total;
     });
+  }
+
+  remover(lancamento: any) {
+    this.lancamentoService.remover(lancamento.codigo)
+      .then( () => {});
   }
 
 }

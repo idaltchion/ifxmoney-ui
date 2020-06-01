@@ -15,6 +15,7 @@ export class LancamentoFilter {
 @Injectable({
   providedIn: 'root'
 })
+
 export class LancamentoService {
 
   constructor(private http: HttpClient) { }
@@ -50,6 +51,13 @@ export class LancamentoService {
         };
         return results;
       });
+  }
+
+  remover(codigo: number): Promise<any> {
+    const headers = new HttpHeaders().append('Authorization', 'Basic YWRtaW5AaWZ4bW9uZXkuY29tOmFkbWlu');
+    return this.http.delete(`${this.lancamentoURL}/${codigo}`, { headers })
+      .toPromise()
+      .then( () => null );
   }
 
 }
