@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { LazyLoadEvent } from 'primeng/api/public_api';
 
 import { LancamentoService, LancamentoFilter } from './../lancamento.service';
+import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 
 @Component({
   selector: 'app-lancamentos-pesquisa',
@@ -13,7 +14,8 @@ import { LancamentoService, LancamentoFilter } from './../lancamento.service';
 export class LancamentosPesquisaComponent implements OnInit {
 
   constructor(
-    private lancamentoService: LancamentoService
+    private lancamentoService: LancamentoService,
+    private errorHandler: ErrorHandlerService
   ) {}
 
   filter = new LancamentoFilter();
@@ -35,6 +37,9 @@ export class LancamentosPesquisaComponent implements OnInit {
     .then(results => {
       this.lancamentos = results.lancamentos;
       this.totalRegistros = results.total;
+    })
+    .catch( erro => {
+      this.errorHandler.handler(erro);
     });
   }
 

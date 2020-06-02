@@ -6,6 +6,7 @@ import { ToastyService } from 'ng2-toasty';
 
 import { LancamentoFilter, LancamentoService } from './../lancamento.service';
 import { LancamentosPesquisaComponent } from './../lancamentos-pesquisa/lancamentos-pesquisa.component';
+import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 
 
 @Component({
@@ -26,7 +27,8 @@ export class LancamentosGridComponent {
     private lancamentoPesquisa: LancamentosPesquisaComponent,
     private lancamentoService: LancamentoService,
     private toastyService: ToastyService,
-    private confirmDialogService: ConfirmationService
+    private confirmDialogService: ConfirmationService,
+    private errorHandler: ErrorHandlerService
     ) {}
 
   mudarPagina(event) {
@@ -39,12 +41,16 @@ export class LancamentosGridComponent {
 
   remover(lancamento: any) {
     this.lancamentoService.remover(lancamento.codigo)
-      .then( () => {
+      .then(() => {
         if (this.tabela.first === 0) {
           this.pesquisar();
         } else {
           this.tabela.reset();
         }
+        this.toastyService.success('Lançamento excluído com sucesso!');
+      })
+      .catch(erro => {
+        this.errorHandler.handler(erro);
       });
   }
 
@@ -53,7 +59,6 @@ export class LancamentosGridComponent {
       message: 'Tem certeza que deseja remover?',
       accept: () => {
         this.remover(lancamento);
-        this.toastyService.success('Lançamento excluído com sucesso!');
       }
     });
   }
