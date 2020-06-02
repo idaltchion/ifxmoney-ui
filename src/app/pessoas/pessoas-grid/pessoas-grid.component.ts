@@ -36,17 +36,17 @@ export class PessoasGridComponent {
 
   remover(pessoa: any) {
     this.pessoaService.remover(pessoa.codigo)
-    .then(() => {
-      if (this.tabela.first === 0) {
-        this.pessoaPesquisa.pesquisar();
-      } else {
-        this.tabela.reset();
-      }
-      this.toasty.success('Pessoa removida com sucesso.');
-    })
-    .catch(erro => {
-      this.errorHandler.handler(erro);
-    });
+      .then(() => {
+        if (this.tabela.first === 0) {
+          this.pessoaPesquisa.pesquisar();
+        } else {
+          this.tabela.reset();
+        }
+        this.toasty.success('Pessoa removida com sucesso.');
+      })
+      .catch(erro => {
+        this.errorHandler.handler(erro);
+      });
   }
 
   confirmarRemocao(pessoa: any) {
@@ -56,6 +56,19 @@ export class PessoasGridComponent {
         this.remover(pessoa);
       }
     });
+  }
+
+  mudarStatus(pessoa: any) {
+    const novoStatus = !pessoa.ativo;
+    this.pessoaService.mudarStatus(pessoa.codigo, novoStatus)
+      .then(() => {
+        const acao = novoStatus ? 'ativada' : 'desativada';
+        pessoa.ativo = novoStatus;
+        this.toasty.success(`Pessoa ${acao} com sucesso`);
+      })
+      .catch(erro => {
+        this.errorHandler.handler(erro);
+      });
   }
 
 }
