@@ -14,6 +14,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { LancamentoService } from '../lancamentos/lancamento.service';
 import { PessoaService } from '../pessoas/pessoa.service';
 import { ConfirmationService } from 'primeng/api';
+import { CategoriaService } from '../categorias/categoria.service';
 
 registerLocaleData(localePt);
 
@@ -42,6 +43,7 @@ registerLocaleData(localePt);
     LancamentoService,
     PessoaService,
     ConfirmationService,
+    CategoriaService,
     { provide: LOCALE_ID, useValue: 'pt-BR'}
   ]
 })
