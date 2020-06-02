@@ -55,4 +55,12 @@ export class PessoaService {
       });
   }
 
+  remover(codigo: number): Promise<any> {
+    const headers = new HttpHeaders().append('Authorization', 'Basic YWRtaW5AaWZ4bW9uZXkuY29tOmFkbWlu');
+
+    return this.http.delete(`${this.pessoaURL}/${codigo}`, {headers})
+      .toPromise()
+      .then(() => null);
+  }
+
 }
