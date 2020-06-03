@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
+import { Pessoa } from '../core/model';
 
 @Injectable({
   providedIn: 'root'
@@ -50,9 +51,17 @@ export class PessoaService {
       });
   }
 
+  adicionar(pessoa: Pessoa): Promise<Pessoa> {
+    let headers = new HttpHeaders();
+    headers = headers.append('Authorization', 'Basic YWRtaW5AaWZ4bW9uZXkuY29tOmFkbWlu');
+    headers = headers.append('Content-Type', 'application/json');
+    console.log('JSON:', JSON.stringify(pessoa));
+    return this.http.post<Pessoa>(this.pessoaURL, JSON.stringify(pessoa), { headers })
+      .toPromise();
+  }
+
   remover(codigo: number): Promise<any> {
     const headers = new HttpHeaders().append('Authorization', 'Basic YWRtaW5AaWZ4bW9uZXkuY29tOmFkbWlu');
-
     return this.http.delete(`${this.pessoaURL}/${codigo}`, {headers})
       .toPromise()
       .then(() => null);
