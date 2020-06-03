@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import 'rxjs/add/operator/toPromise';
 import * as moment from 'moment';
+import { Lancamento } from '../core/model';
 
 export class LancamentoFilter {
   descricao: string;
@@ -51,6 +52,15 @@ export class LancamentoService {
         };
         return results;
       });
+  }
+
+  adicionar(lancamento: Lancamento): Promise<Lancamento> {
+    let headers = new HttpHeaders();
+    headers = headers.append('Authorization', 'Basic YWRtaW5AaWZ4bW9uZXkuY29tOmFkbWlu');
+    headers = headers.append('Content-Type', 'application/json');
+    /* no cadastro a api retorna o lancamento, portanto, ja podera ser retornado o tipo Lancamento ja na propria requisicao */
+    return this.http.post<Lancamento>(this.lancamentoURL, JSON.stringify(lancamento), {headers})
+      .toPromise();
   }
 
   remover(codigo: number): Promise<any> {
