@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
@@ -19,17 +20,11 @@ export class PessoaService {
 
   pessoaURL = 'http://localhost:8080/pessoas';
 
-  listarTodos(): Promise<any> {
+  listarTodas(): Promise<any> {
     const headers = new HttpHeaders().append('Authorization', 'Basic YWRtaW5AaWZ4bW9uZXkuY29tOmFkbWlu');
-    return this.http.get(`${this.pessoaURL}`, { headers })
+    return this.http.get(this.pessoaURL, { headers })
       .toPromise()
-      .then(response => {
-        const content = response['content'];
-        const results = {
-          pessoas: content
-        };
-        return results;
-      });
+      .then(response => response['content']);
   }
 
   pesquisar(filter: PessoaFilter): Promise<any> {
