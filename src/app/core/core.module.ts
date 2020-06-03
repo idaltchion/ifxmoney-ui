@@ -2,6 +2,7 @@
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { registerLocaleData } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import localePt from '@angular/common/locales/pt';
 
 /* Imports from 3rd */
@@ -24,13 +25,11 @@ registerLocaleData(localePt);
   ],
   imports: [
     CommonModule,
+    RouterModule,
 
     /* Imports from 3rd */
     ToastyModule.forRoot(),
     ConfirmDialogModule,
-
-    /* Custom imports */
-
 
   ],
   exports: [

@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
+import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CurrencyMaskModule } from 'ng2-currency-mask';
@@ -43,7 +43,8 @@ import { SharedModule } from './../shared/shared.module';
     InputTextareaModule,
     ButtonModule,
     TooltipModule,
-    SharedModule
+    SharedModule,
+    RouterModule
   ],
   exports: [
     LancamentosCadastroComponent,

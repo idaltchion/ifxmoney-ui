@@ -13,6 +13,7 @@ import { PessoasGridComponent } from './pessoas-grid/pessoas-grid.component';
 import { PessoasPesquisaComponent } from './pessoas-pesquisa/pessoas-pesquisa.component';
 import { PessoasCadastroComponent } from './pessoas-cadastro/pessoas-cadastro.component';
 import { SharedModule } from './../shared/shared.module';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { SharedModule } from './../shared/shared.module';
     TooltipModule,
     InputTextModule,
     ButtonModule,
-    SharedModule
+    SharedModule,
+    RouterModule
   ],
   exports: [
     PessoasCadastroComponent,
