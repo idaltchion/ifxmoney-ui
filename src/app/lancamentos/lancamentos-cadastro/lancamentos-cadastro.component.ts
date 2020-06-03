@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, NgForm } from '@angular/forms';
+import { NgForm } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 import { CategoriaService } from 'src/app/categorias/categoria.service';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
@@ -13,6 +14,7 @@ import { ToastyService } from 'ng2-toasty';
   templateUrl: './lancamentos-cadastro.component.html',
   styleUrls: ['./lancamentos-cadastro.component.css']
 })
+
 export class LancamentosCadastroComponent implements OnInit {
 
   constructor(
@@ -20,6 +22,7 @@ export class LancamentosCadastroComponent implements OnInit {
     private pessoaService: PessoaService,
     private lancamentoService: LancamentoService,
     private toastyService: ToastyService,
+    private route: ActivatedRoute,
     private errorHandler: ErrorHandlerService
   ) { }
 
@@ -33,6 +36,7 @@ export class LancamentosCadastroComponent implements OnInit {
   lancamento = new Lancamento();
 
   ngOnInit() {
+    console.log(this.route.snapshot.params['codigo']);
     this.carregarCategorias();
     this.carregarPessoas();
   }
