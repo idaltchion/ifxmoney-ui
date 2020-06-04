@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { NgForm, FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { CategoriaService } from 'src/app/categorias/categoria.service';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
@@ -23,6 +23,7 @@ export class LancamentosCadastroComponent implements OnInit {
     private lancamentoService: LancamentoService,
     private toastyService: ToastyService,
     private route: ActivatedRoute,
+    private router: Router,
     private errorHandler: ErrorHandlerService
   ) { }
 
@@ -48,6 +49,28 @@ export class LancamentosCadastroComponent implements OnInit {
     return Boolean (this.lancamento.codigo);
   }
 
+  novo(form: NgForm) {
+    form.reset(new Lancamento()); /* funciona como se fosse um 'limpar campos' do form */
+    this.router.navigate(['/lancamentos/novo']);
+  }
+
+  salvar(form: NgForm) {
+    if (this.editando) {
+      this.atualizar(this.lancamento);
+    } else {
+      this.adicionar(form);
+    }
+  }
+
+  adicionar(form: NgForm) {
+    return this.lancamentoService.adicionar(this.lancamento)
+    .then(lancamentoAdicionado => {
+      this.toastyService.success('Lancamento adicionado com sucesso');
+      this.router.navigate(['/lancamentos', lancamentoAdicionado.codigo]);
+    })
+    .catch(erro => this.errorHandler.handler(erro));
+  }
+
   carregarCampos(codigo: number) {
     this.lancamentoService.buscarPeloCodigo(codigo)
       .then((lancamento) => {
@@ -56,31 +79,11 @@ export class LancamentosCadastroComponent implements OnInit {
       .catch(erro => this.errorHandler.handler(erro));
   }
 
-  salvar(form: NgForm) {
-    if (this.editando) {
-      this.atualizar(this.lancamento);
-      console.log('editando lancamento');
-    } else {
-      this.adicionar(form);
-      console.log('adicionando lancamento');
-    }
-  }
-
-  adicionar(form: NgForm) {
-    return this.lancamentoService.adicionar(this.lancamento)
-      .then( () => {
-        this.toastyService.success('Lancamento adicionado com sucesso');
-        form.reset();
-        this.lancamento = new Lancamento();
-      })
-      .catch(erro => this.errorHandler.handler(erro));
-  }
-
   carregarCategorias() {
     return this.categoriaService.listarTodas()
-      .then(results => {
-        this.categorias = results.map(c => ({label: c.nome, value: c.codigo}));
-      })
+    .then(results => {
+      this.categorias = results.map(c => ({label: c.nome, value: c.codigo}));
+    })
       .catch(erro => this.errorHandler.handler(erro));
   }
 
