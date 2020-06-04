@@ -16,11 +16,10 @@ import { CoreModule } from './core/core.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     HttpClientModule,
 
     /* Custons imports */
-    LancamentosModule,
+    LancamentosModule, /* componentes que possuem rotas .forChild() devem ser importadas antes do componente que possui a rota .forRoot() */
     PessoasModule,
     CoreModule,
     AppRoutingModule

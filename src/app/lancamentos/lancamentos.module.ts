@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CurrencyMaskModule } from 'ng2-currency-mask';
@@ -21,6 +20,7 @@ import { LancamentosGridComponent } from './lancamentos-grid/lancamentos-grid.co
 import { LancamentosPesquisaComponent } from './lancamentos-pesquisa/lancamentos-pesquisa.component';
 import { LancamentosCadastroComponent } from './lancamentos-cadastro/lancamentos-cadastro.component';
 import { SharedModule } from './../shared/shared.module';
+import { LancamentoRoutingModule } from './lancamento-routing.module';
 
 
 @NgModule({
@@ -44,7 +44,7 @@ import { SharedModule } from './../shared/shared.module';
     ButtonModule,
     TooltipModule,
     SharedModule,
-    RouterModule
+    LancamentoRoutingModule
   ],
   exports: []
 })
