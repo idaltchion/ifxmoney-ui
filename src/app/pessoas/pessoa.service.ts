@@ -35,9 +35,7 @@ export class PessoaService {
     if (filter.nome) {
       params = params.set('nome', filter.nome);
     }
-
     const headers = new HttpHeaders().append('Authorization', 'Basic YWRtaW5AaWZ4bW9uZXkuY29tOmFkbWlu');
-
     return this.http.get(`${this.pessoaURL}`, { headers, params })
       .toPromise()
       .then(response => {
@@ -51,11 +49,24 @@ export class PessoaService {
       });
   }
 
+  buscarPeloCodigo(codigo: number): Promise<Pessoa> {
+    const headers = new HttpHeaders().append('Authorization', 'Basic YWRtaW5AaWZ4bW9uZXkuY29tOmFkbWlu');
+    return this.http.get<Pessoa>(`${this.pessoaURL}/${codigo}`, { headers })
+      .toPromise();
+  }
+
+  atualizar(pessoa: Pessoa): Promise<Pessoa> {
+    let headers = new HttpHeaders();
+    headers = headers.append('Authorization', 'Basic YWRtaW5AaWZ4bW9uZXkuY29tOmFkbWlu');
+    headers = headers.append('Content-Type', 'application/json');
+    return this.http.put<Pessoa>(`${this.pessoaURL}/${pessoa.codigo}`, JSON.stringify(pessoa), { headers })
+      .toPromise();
+  }
+
   adicionar(pessoa: Pessoa): Promise<Pessoa> {
     let headers = new HttpHeaders();
     headers = headers.append('Authorization', 'Basic YWRtaW5AaWZ4bW9uZXkuY29tOmFkbWlu');
     headers = headers.append('Content-Type', 'application/json');
-    console.log('JSON:', JSON.stringify(pessoa));
     return this.http.post<Pessoa>(this.pessoaURL, JSON.stringify(pessoa), { headers })
       .toPromise();
   }

@@ -20,7 +20,7 @@ import { LancamentosGridComponent } from './lancamentos-grid/lancamentos-grid.co
 import { LancamentosPesquisaComponent } from './lancamentos-pesquisa/lancamentos-pesquisa.component';
 import { LancamentosCadastroComponent } from './lancamentos-cadastro/lancamentos-cadastro.component';
 import { SharedModule } from './../shared/shared.module';
-import { LancamentoRoutingModule } from './lancamento-routing.module';
+import { LancamentosRoutingModule } from './lancamentos-routing.module';
 
 
 @NgModule({
@@ -44,7 +44,7 @@ import { LancamentoRoutingModule } from './lancamento-routing.module';
     ButtonModule,
     TooltipModule,
     SharedModule,
-    LancamentoRoutingModule
+    LancamentosRoutingModule
   ],
   exports: []
 })

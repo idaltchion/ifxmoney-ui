@@ -15,4 +15,4 @@ const routes: Routes = [
     exports: [RouterModule]
 })
 
-export class LancamentoRoutingModule { }
+export class LancamentosRoutingModule { }

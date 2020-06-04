@@ -13,7 +13,7 @@ import { PessoasGridComponent } from './pessoas-grid/pessoas-grid.component';
 import { PessoasPesquisaComponent } from './pessoas-pesquisa/pessoas-pesquisa.component';
 import { PessoasCadastroComponent } from './pessoas-cadastro/pessoas-cadastro.component';
 import { SharedModule } from './../shared/shared.module';
-import { RouterModule } from '@angular/router';
+import { PessoasRoutingModule } from './pessoas-routing.module';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,7 @@ import { RouterModule } from '@angular/router';
     InputTextModule,
     ButtonModule,
     SharedModule,
-    RouterModule
+    PessoasRoutingModule
   ],
   exports: []
 })
