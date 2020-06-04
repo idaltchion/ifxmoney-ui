@@ -4,6 +4,7 @@ import { LazyLoadEvent } from 'primeng/api/public_api';
 
 import { LancamentoService, LancamentoFilter } from './../lancamento.service';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-lancamentos-pesquisa',
@@ -15,6 +16,7 @@ export class LancamentosPesquisaComponent implements OnInit {
 
   constructor(
     private lancamentoService: LancamentoService,
+    private title: Title,
     private errorHandler: ErrorHandlerService
   ) {}
 
@@ -23,7 +25,7 @@ export class LancamentosPesquisaComponent implements OnInit {
   totalRegistros = 0;
 
   ngOnInit() {
-    //this.pesquisar();
+    this.title.setTitle('Pesquisa de Lançamentos');
   }
 
   aoMudarPagina(event: LazyLoadEvent) {

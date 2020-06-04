@@ -17,6 +17,7 @@ import { PessoaService } from '../pessoas/pessoa.service';
 import { ConfirmationService } from 'primeng/api';
 import { CategoriaService } from '../categorias/categoria.service';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
+import { Title } from '@angular/platform-browser';
 
 registerLocaleData(localePt);
 
@@ -45,6 +46,7 @@ registerLocaleData(localePt);
     PessoaService,
     ConfirmationService,
     CategoriaService,
+    Title,
     { provide: LOCALE_ID, useValue: 'pt-BR'}
   ]
 })
