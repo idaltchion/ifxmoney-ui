@@ -32,9 +32,6 @@ import { RouterModule } from '@angular/router';
     SharedModule,
     RouterModule
   ],
-  exports: [
-    PessoasCadastroComponent,
-    PessoasPesquisaComponent
-  ]
+  exports: []
 })
 export class PessoasModule { }
