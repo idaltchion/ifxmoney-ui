@@ -21,6 +21,7 @@ export class Categoria {
 }
 
 export class Lancamento {
+    codigo: number;
     descricao: string;
     dataVencimento: Date;
     dataPagamento: Date;

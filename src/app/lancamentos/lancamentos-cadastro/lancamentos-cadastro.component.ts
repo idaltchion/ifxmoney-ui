@@ -36,16 +36,42 @@ export class LancamentosCadastroComponent implements OnInit {
   lancamento = new Lancamento();
 
   ngOnInit() {
-    console.log(this.route.snapshot.params['codigo']);
+    const codigoLancamentoCarregado = this.route.snapshot.params['codigo'];
+    if (codigoLancamentoCarregado) {
+      this.carregarCampos(codigoLancamentoCarregado);
+    }
     this.carregarCategorias();
     this.carregarPessoas();
   }
 
+  get editando() {
+    return Boolean (this.lancamento.codigo);
+  }
+
+  carregarCampos(codigo: number) {
+    this.lancamentoService.buscarPeloCodigo(codigo)
+      .then((lancamento) => {
+        this.lancamento = lancamento;
+      })
+      .catch(erro => this.errorHandler.handler(erro));
+  }
+
   salvar(form: NgForm) {
+    if (this.editando) {
+      this.atualizar(this.lancamento);
+      console.log('editando lancamento');
+    } else {
+      this.adicionar(form);
+      console.log('adicionando lancamento');
+    }
+  }
+
+  adicionar(form: NgForm) {
     return this.lancamentoService.adicionar(this.lancamento)
       .then( () => {
         this.toastyService.success('Lancamento adicionado com sucesso');
         form.reset();
+        this.lancamento = new Lancamento();
       })
       .catch(erro => this.errorHandler.handler(erro));
   }
@@ -62,6 +88,15 @@ export class LancamentosCadastroComponent implements OnInit {
     return this.pessoaService.listarTodas()
       .then(results => {
         this.pessoas = results.map(p => ({label: p.nome, value: p.codigo}));
+      })
+      .catch(erro => this.errorHandler.handler(erro));
+  }
+
+  atualizar(lancamento: Lancamento) {
+    return this.lancamentoService.atualizar(lancamento)
+      .then((lancamentoAtualizado) => {
+        this.lancamento = lancamentoAtualizado;
+        this.toastyService.success('Lancamento atualizado com sucesso');
       })
       .catch(erro => this.errorHandler.handler(erro));
   }
