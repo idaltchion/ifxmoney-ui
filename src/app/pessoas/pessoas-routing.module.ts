@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { PessoasPesquisaComponent } from './pessoas-pesquisa/pessoas-pesquisa.component';
 import { PessoasCadastroComponent } from './pessoas-cadastro/pessoas-cadastro.component';
-import { PaginaNaoEncontradaComponent } from '../core/pagina-nao-encontrada.component';
 
 const routes: Routes = [
     { path: 'pessoas', component: PessoasPesquisaComponent },

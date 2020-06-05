@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { LancamentosModule } from './lancamentos/lancamentos.module';
 import { PessoasModule } from './pessoas/pessoas.module';
 import { CoreModule } from './core/core.module';
+import { SegurancaModule } from './seguranca/seguranca.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { CoreModule } from './core/core.module';
     /* Custons imports */
     LancamentosModule, /* componentes que possuem rotas .forChild() devem ser importadas antes do componente que possui a rota .forRoot() */
     PessoasModule,
+    SegurancaModule,
     CoreModule,
     AppRoutingModule
   ],
