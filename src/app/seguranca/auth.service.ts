@@ -53,4 +53,12 @@ export class AuthService {
     }
   }
 
+  getUsername() {
+    return (this.jwtPayload.nome) ? this.jwtPayload.nome : '';
+  }
+
+  temPermissao(permissao: string) {
+    return (this.jwtPayload && this.jwtPayload.authorities.includes(permissao));
+  }
+
 }
