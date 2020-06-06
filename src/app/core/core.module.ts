@@ -8,6 +8,7 @@ import localePt from '@angular/common/locales/pt';
 /* Imports from 3rd */
 import { ToastyModule } from 'ng2-toasty';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { JwtModule } from '@auth0/angular-jwt';
 
 /* Imports from custom components and modules */
 import { ErrorHandlerService } from './error-handler.service';
@@ -18,6 +19,7 @@ import { ConfirmationService } from 'primeng/api';
 import { CategoriaService } from '../categorias/categoria.service';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
 import { Title } from '@angular/platform-browser';
+import { AuthService } from '../seguranca/auth.service';
 
 registerLocaleData(localePt);
 
@@ -33,6 +35,7 @@ registerLocaleData(localePt);
     /* Imports from 3rd */
     ToastyModule.forRoot(),
     ConfirmDialogModule,
+    JwtModule
 
   ],
   exports: [
@@ -46,6 +49,7 @@ registerLocaleData(localePt);
     PessoaService,
     ConfirmationService,
     CategoriaService,
+    AuthService,
     Title,
     { provide: LOCALE_ID, useValue: 'pt-BR'}
   ]
