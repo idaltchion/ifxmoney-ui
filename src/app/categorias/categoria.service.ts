@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
 
@@ -13,8 +13,7 @@ export class CategoriaService {
   categoriaUrl = 'http://localhost:8080/categorias';
 
   listarTodas(): Promise<any> {
-    const headers = new HttpHeaders().append('Authorization', 'Basic YWRtaW5AaWZ4bW9uZXkuY29tOmFkbWlu');
-    return this.http.get(this.categoriaUrl, {headers})
+    return this.http.get(this.categoriaUrl)
       .toPromise()
       .then(response => response);
   }

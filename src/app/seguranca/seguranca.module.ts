@@ -9,6 +9,10 @@ import { JwtModule, JwtHelperService } from '@auth0/angular-jwt';
 import { SegurancaRoutingModule } from './seguranca-routing.module';
 import { LoginFormComponent } from './login-form/login-form.component';
 
+export function tokenGetter(): string {
+  return localStorage.getItem('token');
+}
+
 @NgModule({
   declarations: [LoginFormComponent],
   imports: [
@@ -20,14 +24,13 @@ import { LoginFormComponent } from './login-form/login-form.component';
     SegurancaRoutingModule,
     JwtModule.forRoot({
       config: {
-        tokenGetter: jwtTokenGetter
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ['localhost:8080'],
+        blacklistedRoutes: ['http://localhost:8080/oauth/token']
       }
-  })
+    })
   ],
   providers: [JwtHelperService]
 })
 export class SegurancaModule { }
 
-export function jwtTokenGetter() {
-  return '';
-}
