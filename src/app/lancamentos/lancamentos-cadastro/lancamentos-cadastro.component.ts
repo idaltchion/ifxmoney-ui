@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Title } from '@angular/platform-browser';
+
+import { ToastyService } from 'ng2-toasty';
 
 import { CategoriaService } from 'src/app/categorias/categoria.service';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { PessoaService } from 'src/app/pessoas/pessoa.service';
 import { Lancamento } from 'src/app/core/model';
 import { LancamentoService } from '../lancamento.service';
-import { ToastyService } from 'ng2-toasty';
-import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-lancamentos-cadastro',
@@ -39,7 +40,7 @@ export class LancamentosCadastroComponent implements OnInit {
   lancamento = new Lancamento();
 
   ngOnInit() {
-    const codigoLancamentoCarregado = this.route.snapshot.params['codigo'];
+    const codigoLancamentoCarregado = this.route.snapshot.params[`codigo`];
     if (codigoLancamentoCarregado) {
       this.carregarCampos(codigoLancamentoCarregado);
     }

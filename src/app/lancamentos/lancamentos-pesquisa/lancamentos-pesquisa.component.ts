@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 import { LazyLoadEvent } from 'primeng/api/public_api';
 
 import { LancamentoService, LancamentoFilter } from './../lancamento.service';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
-import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-lancamentos-pesquisa',

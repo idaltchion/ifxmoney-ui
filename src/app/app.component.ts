@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { ToastyConfig } from 'ng2-toasty';
 import { Router } from '@angular/router';
+
+import { ToastyConfig } from 'ng2-toasty';
 
 @Component({
   selector: 'app-root',

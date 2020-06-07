@@ -4,10 +4,12 @@ import { CommonModule } from '@angular/common';
 import { registerLocaleData } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import localePt from '@angular/common/locales/pt';
+import { Title } from '@angular/platform-browser';
 
 /* Imports from 3rd */
 import { ToastyModule } from 'ng2-toasty';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 import { JwtModule } from '@auth0/angular-jwt';
 
 /* Imports from custom components and modules */
@@ -15,10 +17,8 @@ import { ErrorHandlerService } from './error-handler.service';
 import { NavbarComponent } from './navbar/navbar.component';
 import { LancamentoService } from '../lancamentos/lancamento.service';
 import { PessoaService } from '../pessoas/pessoa.service';
-import { ConfirmationService } from 'primeng/api';
 import { CategoriaService } from '../categorias/categoria.service';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
-import { Title } from '@angular/platform-browser';
 import { AuthService } from '../seguranca/auth.service';
 import { AcessoNaoAutorizadoComponent } from './acesso-nao-autorizado.component';
 

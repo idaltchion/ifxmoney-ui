@@ -9,7 +9,6 @@ import { LancamentosPesquisaComponent } from './../lancamentos-pesquisa/lancamen
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { AuthService } from 'src/app/seguranca/auth.service';
 
-
 @Component({
   selector: 'app-lancamentos-grid',
   templateUrl: './lancamentos-grid.component.html',

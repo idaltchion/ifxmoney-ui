@@ -3,9 +3,10 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
+import { ToastyService } from 'ng2-toasty';
+
 import { Pessoa } from 'src/app/core/model';
 import { PessoaService } from '../pessoa.service';
-import { ToastyService } from 'ng2-toasty';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 
 @Component({
@@ -27,7 +28,7 @@ export class PessoasCadastroComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const codigoPessoaSelecionada = this.route.snapshot.params['codigo'];
+    const codigoPessoaSelecionada = this.route.snapshot.params[`codigo`];
     if (codigoPessoaSelecionada) {
       this.carregarCampos(codigoPessoaSelecionada);
     }

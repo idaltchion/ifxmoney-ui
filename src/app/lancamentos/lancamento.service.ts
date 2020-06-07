@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 
 import 'rxjs/add/operator/toPromise';
 import * as moment from 'moment';
+
 import { Lancamento } from '../core/model';
+import { environment } from 'src/environments/environment';
 
 export class LancamentoFilter {
   descricao: string;
@@ -18,10 +20,11 @@ export class LancamentoFilter {
 })
 
 export class LancamentoService {
+  lancamentoURL: string;
 
-  constructor(private http: HttpClient) { }
-
-  lancamentoURL = 'http://localhost:8080/lancamentos';
+  constructor(private http: HttpClient) {
+    this.lancamentoURL = `${environment.apiURL}/lancamentos`;
+   }
 
   pesquisar(filter: LancamentoFilter): Promise<any> {
     let params = new HttpParams();

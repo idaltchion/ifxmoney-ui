@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 import 'rxjs/add/operator/toPromise';
+
 import { Pessoa } from '../core/model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -16,10 +17,11 @@ export class PessoaFilter {
 }
 
 export class PessoaService {
+  pessoaURL: string;
 
-  constructor(private http: HttpClient) { }
-
-  pessoaURL = 'http://localhost:8080/pessoas';
+  constructor(private http: HttpClient) {
+    this.pessoaURL = `${environment.apiURL}/pessoas`;
+   }
 
   listarTodas(): Promise<any> {
     return this.http.get(this.pessoaURL)

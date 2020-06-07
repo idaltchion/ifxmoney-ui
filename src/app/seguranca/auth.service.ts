@@ -2,15 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
+
 import { ErrorHandlerService } from '../core/error-handler.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  oAuthTokenURL = 'http://localhost:8080/oauth/token';
-  oAuthTokenRevoke = 'http://localhost:8080/tokens/revoke';
+  oAuthTokenURL: string;
+  oAuthTokenRevoke: string;
   jwtPayload: any;
 
   constructor(
@@ -18,6 +20,8 @@ export class AuthService {
     private jwtHelper: JwtHelperService,
     private errorHandler: ErrorHandlerService
   ) {
+    this.oAuthTokenURL = `${environment.apiURL}/oauth/token`;
+    this.oAuthTokenRevoke = `${environment.apiURL}/tokens/revoke`;
     this.carregarToken();
    }
 

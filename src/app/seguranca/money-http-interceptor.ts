@@ -1,8 +1,10 @@
-import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+
 import { Observable, from, merge } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
+
+import { AuthService } from './auth.service';
 
 export class NotAuthenticatedError {}
 
@@ -34,5 +36,4 @@ export class MoneyHttpInterceptor implements HttpInterceptor {
         }
         return next.handle(req);
     }
-
 }
