@@ -20,13 +20,15 @@ import { CategoriaService } from '../categorias/categoria.service';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
 import { Title } from '@angular/platform-browser';
 import { AuthService } from '../seguranca/auth.service';
+import { AcessoNaoAutorizadoComponent } from './acesso-nao-autorizado.component';
 
 registerLocaleData(localePt);
 
 @NgModule({
   declarations: [
     NavbarComponent,
-    PaginaNaoEncontradaComponent
+    PaginaNaoEncontradaComponent,
+    AcessoNaoAutorizadoComponent
   ],
   imports: [
     CommonModule,
