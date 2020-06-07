@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { ErrorHandlerService } from '../core/error-handler.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,11 +10,13 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthService {
 
   oAuthTokenURL = 'http://localhost:8080/oauth/token';
+  oAuthTokenRevoke = 'http://localhost:8080/tokens/revoke';
   jwtPayload: any;
 
   constructor(
     private http: HttpClient,
-    private jwtHelper: JwtHelperService
+    private jwtHelper: JwtHelperService,
+    private errorHandler: ErrorHandlerService
   ) {
     this.carregarToken();
    }
@@ -38,6 +41,19 @@ export class AuthService {
         }
         return responseError;
       });
+  }
+
+  logout() {
+    return this.http.delete(this.oAuthTokenRevoke, { withCredentials: true })
+      .toPromise()
+      .then(() => {
+        this.limparAccessToken();
+      });
+  }
+
+  limparAccessToken() {
+    localStorage.removeItem('token');
+    this.jwtPayload = null;
   }
 
   private armazenarToken(token: string) {
