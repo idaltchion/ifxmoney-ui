@@ -20,4 +20,5 @@ export class NavbarComponent implements OnInit {
   temPermissao(permissao) {
     return this.auth.temPermissao(permissao);
   }
+
 }

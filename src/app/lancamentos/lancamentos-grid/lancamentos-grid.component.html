@@ -40,7 +40,7 @@
           [routerLink]="['/lancamentos', lancamento.codigo]">
         </a>
         <button class="espaco-icones" pButton icon="pi pi-trash" pTooltip="Remover" tooltipPosition="top" 
-          (click)="confirmarRemocao(lancamento)">
+          (click)="confirmarRemocao(lancamento)" [disabled]="!temPermissao('ROLE_REMOVER_LANCAMENTO')">
         </button>
       </td>
     </tr>

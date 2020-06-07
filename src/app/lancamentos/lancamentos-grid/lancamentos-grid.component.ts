@@ -7,6 +7,7 @@ import { ToastyService } from 'ng2-toasty';
 import { LancamentoFilter, LancamentoService } from './../lancamento.service';
 import { LancamentosPesquisaComponent } from './../lancamentos-pesquisa/lancamentos-pesquisa.component';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
+import { AuthService } from 'src/app/seguranca/auth.service';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class LancamentosGridComponent {
     private lancamentoService: LancamentoService,
     private toastyService: ToastyService,
     private confirmDialogService: ConfirmationService,
+    private auth: AuthService,
     private errorHandler: ErrorHandlerService
     ) {}
 
@@ -63,4 +65,7 @@ export class LancamentosGridComponent {
     });
   }
 
+  temPermissao(permissao: string) {
+    return this.auth.temPermissao(permissao);
+  }
 }
