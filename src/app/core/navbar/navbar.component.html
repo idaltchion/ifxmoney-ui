@@ -3,21 +3,21 @@
     <div class="ui-g">
       <div class="ui-g-12">
         <!-- TODO: nao reconhece a propriedade 'exibindoMenu'. Corrigir -->
-        <!-- (click)="exibindoMenu = !exibindoMenu" -->
-        <a href="javascript:;" class="navbar-toggle"><i class="pi pi-bars"></i></a>
+         
+        <a href="javascript:;" class="navbar-toggle" (click)="exibindoMenu = !exibindoMenu"><i class="pi pi-bars"></i></a>
       </div>
     </div>
   </div>
 
-    <!-- [hidden]="!exibindoMenu" -->
-    <ul class="navbar-menu">
-      <li class=navbar-usuario>{{ getUsername() }}</li>
+    
+    <ul class="navbar-menu" [hidden]="!exibindoMenu">
+      <li class=navbar-usuario>{{ auth.jwtPayload?.nome }}</li>
       <li class="navbar-menuitem" routerLinkActive="ativo"
-        *ngIf="temPermissao('ROLE_PESQUISAR_LANCAMENTO')">
+        *ngIf="auth.temPermissao('ROLE_PESQUISAR_LANCAMENTO')">
         <a routerLink="/lancamentos">Lancamentos</a>
       </li>
       <li class="navbar-menuitem" routerLinkActive="ativo" 
-        *ngIf="temPermissao('ROLE_PESQUISAR_PESSOA')">
+        *ngIf="auth.temPermissao('ROLE_PESQUISAR_PESSOA')">
         <a routerLink="/pessoas">Pessoas</a>
       </li>
       <li class="navbar-menuitem"><a href="javascript:;" (click)="logout()">Logout</a></li>

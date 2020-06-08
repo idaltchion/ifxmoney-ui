@@ -10,21 +10,15 @@ import { ErrorHandlerService } from '../error-handler.service';
 })
 export class NavbarComponent implements OnInit {
 
+  exibindoMenu = false;
+
   constructor(
-    private auth: AuthService,
+    public auth: AuthService,
     private router: Router,
     private errorHandler: ErrorHandlerService
   ) { }
 
   ngOnInit() {
-  }
-
-  getUsername() {
-    return this.auth.getUsername();
-  }
-
-  temPermissao(permissao) {
-    return this.auth.temPermissao(permissao);
   }
 
   logout() {
