@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
@@ -27,7 +27,8 @@ export class LancamentosCadastroComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private title: Title,
-    private errorHandler: ErrorHandlerService
+    private errorHandler: ErrorHandlerService,
+    private formBuilder: FormBuilder
   ) { }
 
   tipos = [
@@ -37,9 +38,10 @@ export class LancamentosCadastroComponent implements OnInit {
 
   categorias = [];
   pessoas = [];
-  lancamento = new Lancamento();
+  formulario: FormGroup;
 
   ngOnInit() {
+    this.configurarFormulario();
     const codigoLancamentoCarregado = this.route.snapshot.params[`codigo`];
     if (codigoLancamentoCarregado) {
       this.carregarCampos(codigoLancamentoCarregado);
@@ -49,25 +51,45 @@ export class LancamentosCadastroComponent implements OnInit {
     this.carregarPessoas();
   }
 
-  get editando() {
-    return Boolean (this.lancamento.codigo);
+  configurarFormulario() {
+    this.formulario = this.formBuilder.group({
+      codigo: [],
+      tipo: ['RECEITA', Validators.required],
+      dataVencimento: [null, Validators.required],
+      dataPagamento: [],
+      descricao: [null, [Validators.required, Validators.minLength(5)]],
+      valor: [null, Validators.required],
+      categoria: this.formBuilder.group({
+        codigo: [null, Validators.required],
+        nome: []
+      }),
+      pessoa: this.formBuilder.group({
+        codigo: [null, Validators.required],
+        nome: []
+      }),
+      observacao: []
+    });
   }
 
-  novo(form: NgForm) {
-    form.reset(new Lancamento()); /* funciona como se fosse um 'limpar campos' do form */
+  get editando() {
+    return Boolean (this.formulario.get('codigo').value);
+  }
+
+  novo() {
+    this.formulario.reset(new Lancamento()); /* funciona como se fosse um 'limpar campos' do form */
     this.router.navigate(['/lancamentos/novo']);
   }
 
-  salvar(form: NgForm) {
+  salvar() {
     if (this.editando) {
-      this.atualizar(this.lancamento);
+      this.atualizar(this.formulario.value);
     } else {
-      this.adicionar(form);
+      this.adicionar();
     }
   }
 
-  adicionar(form: NgForm) {
-    return this.lancamentoService.adicionar(this.lancamento)
+  adicionar() {
+    return this.lancamentoService.adicionar(this.formulario.value)
     .then(lancamentoAdicionado => {
       this.toastyService.success('Lancamento adicionado com sucesso');
       this.router.navigate(['/lancamentos', lancamentoAdicionado.codigo]);
@@ -78,7 +100,7 @@ export class LancamentosCadastroComponent implements OnInit {
   carregarCampos(codigo: number) {
     this.lancamentoService.buscarPeloCodigo(codigo)
       .then((lancamento) => {
-        this.lancamento = lancamento;
+        this.formulario.patchValue(lancamento);
         this.atualizarTitulo();
       })
       .catch(erro => this.errorHandler.handler(erro));
@@ -103,7 +125,7 @@ export class LancamentosCadastroComponent implements OnInit {
   atualizar(lancamento: Lancamento) {
     return this.lancamentoService.atualizar(lancamento)
       .then((lancamentoAtualizado) => {
-        this.lancamento = lancamentoAtualizado;
+        this.formulario.patchValue(lancamentoAtualizado);
         this.atualizarTitulo();
         this.toastyService.success('Lancamento atualizado com sucesso');
       })
@@ -111,7 +133,7 @@ export class LancamentosCadastroComponent implements OnInit {
   }
 
   atualizarTitulo() {
-    this.title.setTitle(`Edição de lançamento: ${this.lancamento.descricao}`);
+    this.title.setTitle(`Edição de lançamento: ${this.formulario.get('descricao').value}`);
   }
 
 }

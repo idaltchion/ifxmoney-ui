@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
@@ -16,7 +16,7 @@ import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 })
 export class PessoasCadastroComponent implements OnInit {
 
-  pessoa = new Pessoa();
+  formulario: FormGroup;
 
   constructor(
     private pessoaService: PessoaService,
@@ -24,10 +24,12 @@ export class PessoasCadastroComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private title: Title,
-    private errorHandlerService: ErrorHandlerService
-  ) { }
+    private errorHandlerService: ErrorHandlerService,
+    private formBuilder: FormBuilder
+    ) { }
 
   ngOnInit() {
+    this.carregarFormulario();
     const codigoPessoaSelecionada = this.route.snapshot.params[`codigo`];
     if (codigoPessoaSelecionada) {
       this.carregarCampos(codigoPessoaSelecionada);
@@ -35,44 +37,61 @@ export class PessoasCadastroComponent implements OnInit {
     this.title.setTitle('Nova Pessoa');
   }
 
-  get editando() {
-    return Boolean (this.pessoa.codigo);
+  carregarFormulario() {
+    this.formulario = this.formBuilder.group({
+      codigo: [],
+      ativo: [true, Validators.required],
+      nome: [null, Validators.required],
+      endereco: this.formBuilder.group({
+        logradouro: [null, Validators.required],
+        numero: [null, Validators.required],
+        complemento: [],
+        bairro: [null, Validators.required],
+        cep: [null, Validators.required],
+        cidade: [null, Validators.required],
+        estado: [null, Validators.required]
+      })
+    });
   }
 
-  novo(form: NgForm) {
-    form.reset(new Pessoa());
+  get editando() {
+    return Boolean (this.formulario.get('codigo').value);
+  }
+
+  novo() {
+    this.formulario.reset(new Pessoa());
     this.router.navigate(['/pessoas/nova']);
   }
 
   carregarCampos(codigo: number) {
     return this.pessoaService.buscarPeloCodigo(codigo)
       .then(pessoa => {
-        this.pessoa = pessoa;
+        this.formulario.patchValue(pessoa);
         this.atualizaTitulo();
       })
       .catch(erro => this.errorHandlerService.handler(erro));
   }
 
-  salvar(form: NgForm) {
+  salvar() {
     if (this.editando) {
-      this.atualizar(this.pessoa);
+      this.atualizar(this.formulario.value);
     } else {
-      this.adicionar(form);
+      this.adicionar();
     }
   }
 
   atualizar(pessoa: Pessoa) {
-    return this.pessoaService.atualizar(this.pessoa)
+    return this.pessoaService.atualizar(this.formulario.value)
       .then(pessoaAtualizada => {
-        this.pessoa = pessoaAtualizada;
+        this.formulario.patchValue(pessoaAtualizada);
         this.toastyService.success('Pessoa atualizada com sucesso');
         this.atualizaTitulo();
       })
       .catch(erro => this.errorHandlerService.handler(erro));
   }
 
-  adicionar(form: NgForm) {
-    return this.pessoaService.adicionar(this.pessoa)
+  adicionar() {
+    return this.pessoaService.adicionar(this.formulario.value)
       .then(pessoaAdicionada => {
         this.toastyService.success('Pessoa adicionada com sucesso');
         this.router.navigate(['/pessoas', pessoaAdicionada.codigo]);
@@ -81,7 +100,7 @@ export class PessoasCadastroComponent implements OnInit {
   }
 
   atualizaTitulo() {
-    this.title.setTitle(`Edição de Pessoa: ${this.pessoa.nome}`);
+    this.title.setTitle(`Edição de Pessoa: ${this.formulario.get('nome').value}`);
   }
 
 }

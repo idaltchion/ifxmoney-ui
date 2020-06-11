@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CurrencyMaskModule } from 'ng2-currency-mask';
@@ -36,6 +36,7 @@ import { LancamentosRoutingModule } from './lancamentos-routing.module';
     SelectButtonModule,
     DropdownModule,
     FormsModule,
+    ReactiveFormsModule,
     InputTextModule,
     CurrencyMaskModule,
     TableModule,
