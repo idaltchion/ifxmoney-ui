@@ -11,7 +11,7 @@ const routes: Routes = [
       component: LancamentosPesquisaComponent,
       canActivate: [AuthGuard],
       data: {
-        routes: ['ROLE_PESQUISAR_LANCAMENTO']
+        roles: ['ROLE_PESQUISAR_LANCAMENTO']
       }
     },
     {

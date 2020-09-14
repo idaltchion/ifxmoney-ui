@@ -10,6 +10,7 @@ import { LancamentosModule } from './lancamentos/lancamentos.module';
 import { PessoasModule } from './pessoas/pessoas.module';
 import { CoreModule } from './core/core.module';
 import { SegurancaModule } from './seguranca/seguranca.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { SegurancaModule } from './seguranca/seguranca.module';
 
     /* Custons imports */
     LancamentosModule, /* componentes que possuem rotas .forChild() devem ser importadas antes do componente que possui a rota .forRoot() */
+    DashboardModule,
     PessoasModule,
     SegurancaModule,
     CoreModule,
