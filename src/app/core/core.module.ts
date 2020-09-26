@@ -21,6 +21,7 @@ import { CategoriaService } from '../categorias/categoria.service';
 import { PaginaNaoEncontradaComponent } from './pagina-nao-encontrada.component';
 import { AuthService } from '../seguranca/auth.service';
 import { AcessoNaoAutorizadoComponent } from './acesso-nao-autorizado.component';
+import { DashboardService } from '../dashboard/dashboard.service';
 
 registerLocaleData(localePt);
 
@@ -51,6 +52,7 @@ registerLocaleData(localePt);
     PessoaService,
     ConfirmationService,
     CategoriaService,
+    DashboardService,
     AuthService,
     Title,
     { provide: LOCALE_ID, useValue: 'pt-BR'}
