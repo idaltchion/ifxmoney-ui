@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../dashboard.service';
 
+import { DecimalPipe } from '@angular/common';
+
 import * as moment from 'moment';
 
 @Component({
@@ -8,16 +10,30 @@ import * as moment from 'moment';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css']
 })
+
 export class DashboardComponent implements OnInit {
   pieData: any;
   lineData: any;
+  chartOptions = {
+    tooltips: {
+      callbacks: {
+        label: (tooltipItem, data) => {
+          const dataset = data.datasets[tooltipItem.datasetIndex];
+          const valor = dataset.data[tooltipItem.index];
+          const label = dataset.label ? (dataset.label + ': ') : '';
+          return label + this.decimalPipe.transform(valor, '1.2-2');
+        }
+      }
+    }
+  };
 
-  constructor(private dashboardService: DashboardService) { }
+  constructor(private dashboardService: DashboardService, private decimalPipe: DecimalPipe) { }
 
   ngOnInit() {
     this.configurePieChart();
     this.configureLineChart();
   }
+
 
   configurePieChart() {
     this.dashboardService.lancamentosPorCategoria()
@@ -79,7 +95,6 @@ export class DashboardComponent implements OnInit {
 
   private configurarDiasMes() {
     const quantidade = moment('2020-06', 'YYYY-MM').daysInMonth();
-    console.log(quantidade);
     const dias: number[] = [];
     for (let i = 1; i <= quantidade; i++) {
       dias.push(i);

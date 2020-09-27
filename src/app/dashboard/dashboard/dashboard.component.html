@@ -6,13 +6,13 @@
 
         <div class="ui-g-12 ui-md-6">
             <p-panel header="Lançamentos por categoria">
-                <p-chart type="pie" [data]="pieData"></p-chart>
+                <p-chart type="pie" [data]="pieData" [options]="chartOptions"></p-chart>
             </p-panel>
         </div>
 
         <div class="ui-g-12 ui-md-6">
             <p-panel header="Lançamentos por dia">
-                <p-chart type="line" [data]="lineData"></p-chart>
+                <p-chart type="line" [data]="lineData" [options]="chartOptions"></p-chart>
             </p-panel>
         </div>
     </div>
