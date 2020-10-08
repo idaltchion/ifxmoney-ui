@@ -11,6 +11,7 @@ import { PessoasModule } from './pessoas/pessoas.module';
 import { CoreModule } from './core/core.module';
 import { SegurancaModule } from './seguranca/seguranca.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { RelatoriosModule } from './relatorios/relatorios.module';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     /* Custons imports */
     LancamentosModule, /* componentes que possuem rotas .forChild() devem ser importadas antes do componente que possui a rota .forRoot() */
     DashboardModule,
+    RelatoriosModule,
     PessoasModule,
     SegurancaModule,
     CoreModule,

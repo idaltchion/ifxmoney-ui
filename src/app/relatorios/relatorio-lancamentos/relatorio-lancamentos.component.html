@@ -1,0 +1,23 @@
+<div class="container">
+    <form (ngSubmit)="gerarRelatorio()" [formGroup]="formulario">
+        <div class="ui-g">
+            <div class="ui-g-12">
+                <h1>Relatório de Lançamentos por Pessoa</h1>
+            </div>
+            <div class="ui-g-12">
+                <label>Vencimento</label>
+                <p-calendar dateFormat="dd/mm/yy" placeholder="dd/mm/aaaa" [inputStyle]="{'width': '100px'}"
+                    name="dataInicial" formControlName="dataInicial">
+                </p-calendar>
+                <label> até </label>
+                <p-calendar dateFormat="dd/mm/yy" placeholder="dd/mm/aaaa" [inputStyle]="{'width': '100px'}"
+                    name="dataFinal" formControlName="dataFinal">
+                </p-calendar>
+                <app-message [control]="formulario.get('dataInicial')" error="required"></app-message>
+            </div>
+            <div class="ui-g-12">
+                <button type="submit" pButton label="Gerar Relatório" [disabled]="formulario.invalid"></button>
+            </div>
+        </div>
+    </form>
+</div>
