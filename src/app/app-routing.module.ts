@@ -8,8 +8,7 @@ import { RelatorioLancamentosComponent } from './relatorios/relatorio-lancamento
 
 const routes: Routes = [
     { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-    { path: 'dashboard', component: DashboardComponent },
-    { path: 'relatorios', component: RelatorioLancamentosComponent },
+    // { path: 'dashboard', component: DashboardComponent },
     { path: 'pagina-nao-encontrada', component: PaginaNaoEncontradaComponent },
     { path: 'acesso-nao-autorizado', component: AcessoNaoAutorizadoComponent },
     { path: '**', redirectTo: 'pagina-nao-encontrada' }

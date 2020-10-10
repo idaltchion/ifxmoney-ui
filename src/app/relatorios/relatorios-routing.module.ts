@@ -7,7 +7,7 @@ import { AuthGuard } from '../seguranca/auth.guard';
 
 const routes: Routes = [
   {
-    path: 'lancamentos',
+    path: 'relatorios/lancamentos',
     component: RelatorioLancamentosComponent,
     canActivate: [AuthGuard],
     data: {
