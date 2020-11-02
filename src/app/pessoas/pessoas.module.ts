@@ -7,6 +7,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TooltipModule } from 'primeng/tooltip';
 import { TableModule } from 'primeng/table';
 import { InputMaskModule } from 'primeng/inputmask';
+import { PanelModule } from 'primeng/panel';
+import { DialogModule } from 'primeng/dialog';
 
 /* Imports from custom components and modules */
 import { PessoasGridComponent } from './pessoas-grid/pessoas-grid.component';
@@ -25,11 +27,15 @@ import { PessoasRoutingModule } from './pessoas-routing.module';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+
     InputMaskModule,
     TableModule,
     TooltipModule,
     InputTextModule,
+    PanelModule,
     ButtonModule,
+    DialogModule,
+
     SharedModule,
     PessoasRoutingModule
   ],
