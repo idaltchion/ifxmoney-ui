@@ -1,11 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { FormGroup, FormControl, FormBuilder, Validators, FormArray, NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 
 import { ToastyService } from 'ng2-toasty';
 
-import { Contato, Pessoa } from 'src/app/core/model';
+import { Pessoa } from 'src/app/core/model';
 import { PessoaService } from '../pessoa.service';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 
@@ -18,10 +18,6 @@ export class PessoasCadastroComponent implements OnInit {
 
   formulario: FormGroup;
   pessoa = new Pessoa();
-  exibindoDialogoContato = false;
-  contato: Contato;
-  contatoIndex: number;
-  isEditandoContato = false;
 
   constructor(
     private pessoaService: PessoaService,
@@ -60,53 +56,6 @@ export class PessoasCadastroComponent implements OnInit {
     });
   }
 
-  createContatoFormGroup(): FormGroup {
-    return this.formBuilder.group({
-      codigo: [],
-      nome: [null, Validators.required],
-      email: [null, Validators.required],
-      telefone: [null, Validators.required]
-    });
-  }
-
-  prepararNovoContato() {
-    this.isEditandoContato = false;
-    this.exibindoDialogoContato = true;
-    this.contato = new Contato();
-    this.contatoIndex = this.pessoa.contatos.length;
-    console.log(this.pessoa.contatos);
-  }
-
-  editarContato(contato: Contato, contatoIndex: number) {
-    this.contato = this.novoContato(contato);
-    this.exibindoDialogoContato = true;
-    this.contatoIndex = contatoIndex;
-    this.isEditandoContato = true;
-    console.log(this.contato);
-    console.log(this.contatoIndex);
-  }
-
-  removerContato(contatoIndex: number) {
-    const contatosFormArray = this.formulario.get('contatos') as FormArray;
-    contatosFormArray.removeAt(contatoIndex);
-    this.pessoa.contatos.splice(contatoIndex, 1);
-  }
-
-  confirmarContato(form: NgForm) {
-    this.pessoa.contatos[this.contatoIndex] = this.novoContato(this.contato);
-    const contatosFormArray = this.formulario.get('contatos') as FormArray;
-    if (!this.isEditandoContato) {
-      contatosFormArray.push(this.createContatoFormGroup());
-    }
-    this.formulario.patchValue(this.pessoa);
-    this.exibindoDialogoContato = false;
-    form.reset();
-  }
-
-  novoContato(contato: Contato): Contato {
-    return new Contato(contato.codigo, contato.nome, contato.email, contato.telefone);
-  }
-
   get editando() {
     return Boolean (this.formulario.get('codigo').value);
   }
@@ -128,6 +77,15 @@ export class PessoasCadastroComponent implements OnInit {
           this.formulario.patchValue(pessoa);
         })
       .catch(erro => this.errorHandlerService.handler(erro));
+  }
+
+  createContatoFormGroup(): FormGroup {
+    return this.formBuilder.group({
+      codigo: [],
+      nome: [null, Validators.required],
+      email: [null, Validators.required],
+      telefone: [null, Validators.required]
+    });
   }
 
   salvar() {
