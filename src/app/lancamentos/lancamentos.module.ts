@@ -14,6 +14,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { InputTextModule } from 'primeng/inputtext';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { CalendarModule } from 'primeng/calendar';
+import { FileUploadModule } from 'primeng/fileupload';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 /* Imports from custom components and modules */
 import { LancamentosGridComponent } from './lancamentos-grid/lancamentos-grid.component';
@@ -44,6 +46,9 @@ import { LancamentosRoutingModule } from './lancamentos-routing.module';
     InputTextareaModule,
     ButtonModule,
     TooltipModule,
+    FileUploadModule,
+    ProgressSpinnerModule,
+
     SharedModule,
     LancamentosRoutingModule
   ],

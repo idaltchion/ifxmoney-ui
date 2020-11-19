@@ -39,6 +39,7 @@ export class LancamentosCadastroComponent implements OnInit {
   categorias = [];
   pessoas = [];
   formulario: FormGroup;
+  isUploadInProgress = false;
 
   ngOnInit() {
     this.configurarFormulario();
@@ -67,7 +68,9 @@ export class LancamentosCadastroComponent implements OnInit {
         codigo: [null, Validators.required],
         nome: []
       }),
-      observacao: []
+      observacao: [],
+      anexo: [],
+      urlAnexo: []
     });
   }
 
@@ -136,4 +139,40 @@ export class LancamentosCadastroComponent implements OnInit {
     this.title.setTitle(`Edição de lançamento: ${this.formulario.get('descricao').value}`);
   }
 
+  get urlAnexo() {
+    return this.lancamentoService.urlAnexo();
+  }
+
+  get getNomeAnexo() {
+    const nome = this.formulario.get('anexo').value;
+    if (nome) {
+      return nome.substring(nome.indexOf('_') + 1, nome.length);
+    }
+    return '';
+  }
+
+  setInfoAnexo(event) {
+    const anexo = event.originalEvent.body;
+    this.formulario.patchValue({
+      anexo: anexo.nome,
+      urlAnexo: anexo.url
+    });
+    this.isUploadInProgress = false;
+  }
+
+  getErrorUploadAnexo(event) {
+    this.toastyService.error('Erro ao anexar arquivo');
+    this.isUploadInProgress = false;
+  }
+
+  setStatusUpload() {
+    this.isUploadInProgress = true;
+  }
+
+  removerAnexo() {
+    this.formulario.patchValue({
+      anexo: null,
+      urlAnexo: null
+    });
+  }
 }

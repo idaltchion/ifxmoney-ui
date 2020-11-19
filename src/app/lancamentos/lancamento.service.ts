@@ -83,6 +83,10 @@ export class LancamentoService {
       });
   }
 
+  urlAnexo(): string {
+    return `${this.lancamentoURL}/anexo`;
+  }
+
   private converterStringParaDatas(lancamentos: Lancamento[]) {
     for (const lancamento of lancamentos) {
       lancamento.dataVencimento = moment(lancamento.dataVencimento, 'YYYY-MM-DD').toDate();
