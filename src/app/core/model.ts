@@ -27,8 +27,7 @@ export class Endereco {
     complemento: string;
     cep: string;
     bairro: string;
-    cidade: string;
-    estado: string;
+    cidade = new Cidade();
 }
 
 export class Categoria {
@@ -47,4 +46,15 @@ export class Lancamento {
     pessoa = new Pessoa();
     anexo: string;
     urlAnexo: string;
+}
+
+export class Estado {
+    codigo: number;
+    nome: string;
+}
+
+export class Cidade {
+    codigo: number;
+    nome: string;
+    estado = new Estado();
 }
