@@ -9,6 +9,7 @@ import { TableModule } from 'primeng/table';
 import { InputMaskModule } from 'primeng/inputmask';
 import { PanelModule } from 'primeng/panel';
 import { DialogModule } from 'primeng/dialog';
+import { DropdownModule } from 'primeng/dropdown';
 
 /* Imports from custom components and modules */
 import { PessoasGridComponent } from './pessoas-grid/pessoas-grid.component';
@@ -37,6 +38,7 @@ import { PessoasContatoComponent } from './pessoas-contato/pessoas-contato.compo
     PanelModule,
     ButtonModule,
     DialogModule,
+    DropdownModule,
 
     SharedModule,
     PessoasRoutingModule

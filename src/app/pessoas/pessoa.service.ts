@@ -81,18 +81,18 @@ export class PessoaService {
       .then(() => null);
   }
 
-  listarEstados(): Promise<Estado[]> {
+  listarEstados(): Promise<any> {
     return this.http.get(this.estadoURL)
       .toPromise()
-      .then(response => response[`content`]);
+      .then(response => response);
   }
 
-  pesquisarCidade(codigoEstado): Promise<Cidade[]> {
+  pesquisarCidade(codigoEstado): Promise<any> {
     let params = new HttpParams();
     params = params.set('codigoEstado', codigoEstado);
     return this.http.get(this.cidadeURL, { params })
       .toPromise()
-      .then(response => response[`content`]);
+      .then(response => response);
   }
 
 }

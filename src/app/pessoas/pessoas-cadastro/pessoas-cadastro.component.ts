@@ -5,7 +5,7 @@ import { Title } from '@angular/platform-browser';
 
 import { ToastyService } from 'ng2-toasty';
 
-import { Pessoa } from 'src/app/core/model';
+import { Cidade, Estado, Pessoa } from 'src/app/core/model';
 import { PessoaService } from '../pessoa.service';
 import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 
@@ -18,6 +18,9 @@ export class PessoasCadastroComponent implements OnInit {
 
   formulario: FormGroup;
   pessoa = new Pessoa();
+  estados = [];
+  cidades = [];
+  estadoSelecionado: number;
 
   constructor(
     private pessoaService: PessoaService,
@@ -31,6 +34,7 @@ export class PessoasCadastroComponent implements OnInit {
 
   ngOnInit() {
     this.carregarFormulario();
+    this.carregarEstados();
     const codigoPessoaSelecionada = this.route.snapshot.params[`codigo`];
     if (codigoPessoaSelecionada) {
       this.carregarCampos(codigoPessoaSelecionada);
@@ -49,8 +53,14 @@ export class PessoasCadastroComponent implements OnInit {
         complemento: [],
         bairro: [null, Validators.required],
         cep: [null, Validators.required],
-        cidade: [null, Validators.required],
-        estado: [null, Validators.required]
+        cidade: this.formBuilder.group({
+          codigo: [null, Validators.required],
+          nome: [],
+          estado: this.formBuilder.group({
+            codigo: [null, Validators.required],
+            nome: []
+          })
+        })
       }),
       contatos: this.formBuilder.array([])
     });
@@ -69,12 +79,14 @@ export class PessoasCadastroComponent implements OnInit {
     return this.pessoaService.buscarPeloCodigo(codigo)
       .then(pessoa => {
           this.pessoa = pessoa;
+
           const contatosFormArray = this.formulario.get('contatos') as FormArray;
-          this.atualizaTitulo();
           pessoa.contatos.forEach(() => {
             contatosFormArray.push(this.createContatoFormGroup());
           });
           this.formulario.patchValue(pessoa);
+          this.atualizaTitulo();
+          this.carregarCidades();
         })
       .catch(erro => this.errorHandlerService.handler(erro));
   }
@@ -117,6 +129,23 @@ export class PessoasCadastroComponent implements OnInit {
 
   atualizaTitulo() {
     this.title.setTitle(`Edição de Pessoa: ${this.formulario.get('nome').value}`);
+  }
+
+  carregarEstados() {
+    return this.pessoaService.listarEstados()
+      .then(response => {
+        this.estados = response.map(uf => ({label: uf.nome, value: uf.codigo}));
+      })
+      .catch(erro => this.errorHandlerService.handler(erro));
+  }
+
+  carregarCidades() {
+    const estado = this.formulario.get('endereco.cidade.estado').value;
+    return this.pessoaService.pesquisarCidade(estado.codigo)
+      .then(results => {
+        this.cidades = results.map(c => ({label: c.nome, value: c.codigo}));
+      })
+      .catch(erro => this.errorHandlerService.handler(erro));
   }
 
 }
