@@ -1,6 +1,6 @@
 # IfxMoney-UI
 
-Esse projeto serve como cliente dos recursos desenvolvidos no projeto [IfxMoney-API](https://github.com/idaltchion/ifxmoney-api).
+Esse é um projeto Web para gerenciamento de receitas e despesas de pessoas, no qual serve como cliente dos recursos desenvolvidos no projeto [IfxMoney-API](https://github.com/idaltchion/ifxmoney-api).
 
 ## Acesso
 
@@ -8,6 +8,10 @@ O projeto está acessível através do link [IfxMoney](https://ifxmoney.herokuap
 E-mail: `visitante@ifxmoney.com`  
 Senha : `visitante` 
 
+## Tecnologias utilizadas
+
+* [Angular](https://angular.io)
+* [PrimeNG](https://www.primefaces.org)
 
 ## Contato
 
